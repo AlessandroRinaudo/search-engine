@@ -1,8 +1,25 @@
 <template>
   <main>
     <div class="max-w-2xl p-4 mx-auto lg:max-w-7xl">
-      <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">{{ $route.params.lang + ' books' }}</h2>
-      <div class="grid grid-cols-1 mt-6 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+      <nav class="flex" aria-label="Breadcrumb">
+        <ol role="list" class="flex items-center space-x-4">
+          <li>
+            <div class="flex items-center">
+              <a href="#" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"><router-link to="/language">Languages</router-link></a>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+              <a href="#" class="ml-4 text-sm font-extrabold text-gray-700 hover:text-gray-900" aria-current="page">{{ $route.params.lang + ' books' }}</a>
+            </div>
+          </li>
+        </ol>
+      </nav>
+
+      <div class="grid grid-cols-1 my-6 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
         <div class="relative p-2 text-center rounded-lg shadow group"
              v-for="book in this.$store.state.books"
              v-bind:key="book.title">
