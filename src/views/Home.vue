@@ -26,7 +26,7 @@
 						</p>
 						<div
 								 class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-							<div class="rounded-md shadow">
+							<div class="rounded-md shadow-lg">
 								<router-link
 														 class="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
 														 to="/language">
