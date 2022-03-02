@@ -5,11 +5,7 @@
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center">
             <div class="flex-shrink-0">
-              <img
-                class="w-8 h-8"
-                src="/img/logos/workflow-mark-on-dark.svg"
-                alt="Workflow logo"
-              />
+              <img class="w-8 h-8" src="/img/logos/swam.svg" alt="Logo" />
             </div>
             <div class="block">
               <div class="flex items-baseline ml-10">
@@ -54,8 +50,14 @@ export default defineComponent({
     showMenu: false,
     showProfileMenu: false,
     links: [
-      { text: "Gutenberg", to: "/" },
-      { text: "Find Books", to: "/language" }
+      {
+        text: "Gutenberg",
+        to: "/"
+      },
+      {
+        text: "Find Books",
+        to: "/language"
+      }
     ]
   })
 });
