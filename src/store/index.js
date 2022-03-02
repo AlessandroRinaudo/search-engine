@@ -1,30 +1,30 @@
 import { createStore } from "vuex";
-import { getLanguages, getBooksPerLanguage, getBooks } from '../service/books'
+import { getLanguages, getBooksPerLanguage, getBooks } from "../service/books";
 
 const store = createStore({
   state: {
     languages: [],
-    books: [],
+    books: []
   },
   mutations: {
     storeLanguages: (state, languages) => {
-      state.languages = languages
+      state.languages = languages;
     },
     storeBooks: (state, books) => {
-      state.books = books
-    },
+      state.books = books;
+    }
   },
   actions: {
-    fetchLanguages: async store => {
-      const languages = await getLanguages()
-      store.commit('storeLanguages', languages)
+    fetchLanguages: async (store) => {
+      const languages = await getLanguages();
+      store.commit("storeLanguages", languages);
     },
     fetchBooks: async (store, lang) => {
-      if (lang) store.commit('storeBooks', await getBooksPerLanguage(lang))
-      else store.commit('storeBooks', await getBooks())
-    },
+      if (lang) store.commit("storeBooks", await getBooksPerLanguage(lang));
+      else store.commit("storeBooks", await getBooks());
+    }
   },
   modules: {},
-  getters: {},
-})
+  getters: {}
+});
 export default store;
