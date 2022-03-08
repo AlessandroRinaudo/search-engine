@@ -60,7 +60,7 @@
               <div class="rounded-md">
                 <router-link
                   class="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-indigo-700 bg-indigo-100 border border-transparent rounded-md hover:bg-indigo-200"
-                  to="/language"
+                  to="/languages"
                 >
                   Find books by language
                 </router-link>

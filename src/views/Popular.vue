@@ -11,7 +11,7 @@
         :key="lang"
         class="p-6 my-6 border"
       >
-        <router-link :to="'/language/' + lang">
+        <router-link :to="'/languages/' + lang">
           {{ lang }}
         </router-link>
       </div>

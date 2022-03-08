@@ -60,15 +60,15 @@ export default defineComponent({
       },
       {
         text: "Language",
-        to: "/language"
+        to: "/languages"
       },
       {
         text: "Category",
-        to: "/category"
+        to: "/categories"
       },
       {
         text: "Author",
-        to: "/author"
+        to: "/authors"
       },
       {
         text: "Random",

@@ -7,14 +7,14 @@
     </h2>
     <div class="flex flex-row flex-wrap mt-5">
       <div class="p-6 my-6 border">
-        <router-link to="/language/all"> All </router-link>
+        <router-link to="/languages/all"> All </router-link>
       </div>
       <div
         v-for="lang in $store.state.languages"
         :key="lang"
         class="p-6 my-6 border"
       >
-        <router-link :to="'/language/' + lang">
+        <router-link :to="'/languages/' + lang">
           {{ lang }}
         </router-link>
       </div>
