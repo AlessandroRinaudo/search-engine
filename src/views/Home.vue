@@ -39,8 +39,8 @@
                     <input
                       id="book"
                       type="string"
-                      placeholder="Enter a book"
-                      class="block w-full px-4 py-3 rounded-md border border-gray-300 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700"
+                      placeholder="Tape something..."
+                      class="block w-full px-4 py-3 rounded-md border border-gray-300 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700"
                     />
                   </div>
                   <div class="mt-3 sm:mt-0 sm:ml-3">

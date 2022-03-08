@@ -36,9 +36,9 @@
       </div>
     </nav>
 
-    <div class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
+    <main class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
       <router-view />
-    </div>
+    </main>
   </div>
 </template>
 
@@ -55,9 +55,29 @@ export default defineComponent({
         to: "/"
       },
       {
-        text: "Find Books",
+        text: "Top 100",
+        to: "/popular"
+      },
+      {
+        text: "Language",
         to: "/language"
-      }
+      },
+      {
+        text: "Category",
+        to: "/category"
+      },
+      {
+        text: "Author",
+        to: "/author"
+      },
+      {
+        text: "Random",
+        to: "/random"
+      },
+      {
+        text: "About us",
+        to: "/about"
+      },
     ]
   })
 });

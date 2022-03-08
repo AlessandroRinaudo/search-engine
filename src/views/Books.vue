@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <div class="mt-8">
     <div class="max-w-2xl p-4 mx-auto lg:max-w-7xl">
       <nav class="flex" aria-label="Breadcrumb">
         <ol role="list" class="flex items-center space-x-4">
@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 <script>
 export default {
