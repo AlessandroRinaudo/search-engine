@@ -1,28 +1,31 @@
 <template>
   <div class="mt-8">
     <h2
-      class="text-4xl font-extrabold leading-10 tracking-tight text-center text-gray-900"
+      class="pb-8 text-4xl font-extrabold leading-10 tracking-tight text-center text-gray-900"
     >
       Rank by popularity
     </h2>
-    <div class="flex flex-row flex-wrap mt-5">
-      <div
-        v-for="lang in $store.state.languages"
-        :key="lang"
-        class="p-6 my-6 border"
-      >
-        <router-link :to="'/languages/' + lang">
-          {{ lang }}
-        </router-link>
-      </div>
-    </div>
+    <BookList :books="books" />
   </div>
 </template>
 
 <script>
+import BookList from "../components/molecules/BookList.vue";
 export default {
-  mounted() {
-    this.$store.dispatch("fetchLanguages");
+  components: {
+    BookList
+  },
+  computed: {
+    books() {
+      return this.$store.state.books.results;
+    }
+  },
+  async mounted() {
+    try {
+      await this.$store.dispatch("fetchBooks");
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 </script>
