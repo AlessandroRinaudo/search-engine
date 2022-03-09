@@ -36,7 +36,7 @@
       </div>
     </nav>
 
-    <main class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
+    <main class="max-w-screen-xl mx-auto px-6 lg:px-8">
       <router-view />
     </main>
   </div>
@@ -77,7 +77,7 @@ export default defineComponent({
       {
         text: "About us",
         to: "/about"
-      },
+      }
     ]
   })
 });

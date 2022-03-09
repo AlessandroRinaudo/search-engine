@@ -1,10 +1,12 @@
 import { createStore } from "vuex";
-import { getLanguages, getBooksPerLanguage, getBooks } from "../service/books";
+import { getLanguages, getBooksPerLanguage, getBooks, getTotalBooks, getBook } from "../service/books";
 
 const store = createStore({
   state: {
     languages: [],
-    books: []
+    books: [],
+    totalBooks: [],
+    book: {},
   },
   mutations: {
     storeLanguages: (state, languages) => {
@@ -12,6 +14,12 @@ const store = createStore({
     },
     storeBooks: (state, books) => {
       state.books = books;
+    },
+    storeTotalBooks: (state, totalBooks) => {
+      state.totalBooks = totalBooks;
+    },
+    storeBook: (state, book) => {
+      state.book = book;
     }
   },
   actions: {
@@ -22,6 +30,12 @@ const store = createStore({
     fetchBooks: async (store, lang) => {
       if (lang) store.commit("storeBooks", await getBooksPerLanguage(lang));
       else store.commit("storeBooks", await getBooks());
+    },
+    fetchTotalBooks: async (store, id) => {
+      store.commit("storeTotalBooks", await getTotalBooks(id));
+    },
+    fetchBook: async (store, id) => {
+      store.commit("storeBook", await getBook(id));
     }
   },
   modules: {},
