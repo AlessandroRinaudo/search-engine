@@ -1,8 +1,6 @@
 <template>
   <div class="mt-8">
-    <div class="max-w-2xl p-4 mx-auto lg:max-w-7xl">
-      Detail book
-    </div>
+    <div class="max-w-2xl p-4 mx-auto lg:max-w-7xl">Detail book</div>
   </div>
 </template>
 <script>
@@ -15,9 +13,9 @@ export default {
   mounted() {
     const lang = this.$route.params.lang;
     if (lang === "all") {
-      this.$store.dispatch("fetchBooks");
+      this.$store.dispatch("fetchLocalBooks");
     } else {
-      this.$store.dispatch("fetchBooks", lang);
+      this.$store.dispatch("fetchLocalBooks", lang);
     }
   }
 };

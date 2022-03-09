@@ -43,7 +43,7 @@
         class="grid grid-cols-1 my-6 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
       >
         <div
-          v-for="book in $store.state.books"
+          v-for="book in $store.state.localBooks"
           :key="book.title"
           class="relative p-2 text-center rounded-lg shadow-lg group"
         >
@@ -84,9 +84,9 @@ export default {
   mounted() {
     const lang = this.$route.params.lang;
     if (lang === "all") {
-      this.$store.dispatch("fetchBooks");
+      this.$store.dispatch("fetchLocalBooks");
     } else {
-      this.$store.dispatch("fetchBooks", lang);
+      this.$store.dispatch("fetchLocalBooks", lang);
     }
   }
 };

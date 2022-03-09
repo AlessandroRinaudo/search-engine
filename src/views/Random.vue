@@ -263,12 +263,12 @@ export default {
       return this.$store.state.book;
     },
     total() {
-      return this.$store.state.totalBooks.count;
+      return this.$store.state.books.count;
     }
   },
   async mounted() {
     try {
-      await this.$store.dispatch("fetchTotalBooks");
+      await this.$store.dispatch("fetchBooks");
       await this.$store.dispatch("fetchBook", this.randomNumber());
     } catch (error) {
       console.log(error);

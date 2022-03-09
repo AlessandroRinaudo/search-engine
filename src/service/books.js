@@ -1,13 +1,13 @@
 import data from "./database.json";
 
-const getBooks = async () =>
+const getLocalBooks = async () =>
   Object.values(data).reduce((acc, val) => acc.concat(val), []);
 
-const getTotalBooks = async () => {
+const getBooks = async () => {
   return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/books`)
     .then((response) => response.json())
     .catch(error => {
-      console.log("ERROR getTotalBooks: ", error);
+      console.log("ERROR getBooks: ", error);
     });
 }
 
@@ -23,4 +23,4 @@ const getBooksPerLanguage = async (language) => data[language];
 
 const getLanguages = async () => Object.keys(data);
 
-export { getBook, getTotalBooks, getBooks, getBooksPerLanguage, getLanguages };
+export { getBook, getBooks, getLocalBooks, getBooksPerLanguage, getLanguages };
