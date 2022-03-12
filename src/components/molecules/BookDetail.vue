@@ -245,7 +245,53 @@
 export default {
   props: {
     book: {
-      type: Object
+      type: Object,
+      required: true,
+      default: () => ({
+        id: 84,
+        title: "Frankenstein; Or, The Modern Prometheus",
+        authors: [
+          {
+            name: "Shelley, Mary Wollstonecraft",
+            birth_year: 1797,
+            death_year: 1851
+          }
+        ],
+        translators: [],
+        subjects: [
+          "Frankenstein's monster (Fictitious character) -- Fiction",
+          "Frankenstein, Victor (Fictitious character) -- Fiction",
+          "Gothic fiction",
+          "Horror tales",
+          "Monsters -- Fiction",
+          "Science fiction",
+          "Scientists -- Fiction"
+        ],
+        bookshelves: [
+          "Gothic Fiction",
+          "Movie Books",
+          "Precursors of Science Fiction",
+          "Science Fiction by Women"
+        ],
+        languages: ["en"],
+        copyright: false,
+        media_type: "Text",
+        formats: {
+          "application/epub+zip":
+            "https://www.gutenberg.org/ebooks/84.epub.images",
+          "application/rdf+xml": "https://www.gutenberg.org/ebooks/84.rdf",
+          "application/x-mobipocket-ebook":
+            "https://www.gutenberg.org/ebooks/84.kindle.images",
+          "text/html; charset=utf-8":
+            "https://www.gutenberg.org/files/84/84-h.zip",
+          "text/html": "https://www.gutenberg.org/ebooks/84.html.images",
+          "image/jpeg":
+            "https://www.gutenberg.org/cache/epub/84/pg84.cover.medium.jpg",
+          "text/plain; charset=utf-8":
+            "https://www.gutenberg.org/files/84/84-0.zip"
+        },
+        download_count: 65549
+      })
     }
   }
 };
