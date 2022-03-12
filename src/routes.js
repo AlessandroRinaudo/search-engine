@@ -4,7 +4,6 @@ import Book from "./views/Book.vue";
 import Popular from "./views/Popular.vue";
 import Languages from "./views/Languages.vue";
 import Categories from "./views/Categories.vue";
-import Authors from "./views/Authors.vue";
 import Random from "./views/Random.vue";
 import About from "./views/About.vue";
 import NotFound from "./views/NotFound.vue";
@@ -18,8 +17,6 @@ export let routes = [
   { path: "/languages/:lang", component: Books, meta: { title: "Books" } },
   { path: "/categories", component: Categories, meta: { title: "Categories" } },
   { path: "/categories/:category", component: Books, meta: { title: "Category" } },
-  { path: "/authors", component: Authors, meta: { title: "Authors" } },
-  { path: "/authors/:name", component: Books, meta: { title: "Name" } },
   { path: "/random", component: Random, meta: { title: "Random" } },
   { path: "/about", component: About, meta: { title: "About us" } },
   { path: "/:path(.*)", component: NotFound }
