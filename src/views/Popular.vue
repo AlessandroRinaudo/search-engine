@@ -5,7 +5,7 @@
     >
       Rank by popularity
     </h2>
-    <BookList :books="books" />
+    <BookList :books="books.results" />
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     books() {
-      return this.$store.state.books.results;
+      return this.$store.state.books;
     }
   },
   async mounted() {

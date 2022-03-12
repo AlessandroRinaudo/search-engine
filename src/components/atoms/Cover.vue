@@ -9,10 +9,12 @@
   <div class="flex justify-center mt-4">
     <div>
       <h3 class="text-sm font-bold text-gray-900">
-        <a :href="'https://www.gutenberg.org/ebooks/' + book.id">
+        <router-link to="/home">Home</router-link>
+
+        <router-link :to="`/books/${book.id}`">
           <span aria-hidden="true" class="absolute inset-0"></span>
           {{ book.title }}
-        </a>
+        </router-link>
       </h3>
       <ul
         v-for="(author, i) in book.authors"

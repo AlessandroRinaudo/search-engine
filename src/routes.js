@@ -1,5 +1,6 @@
 import Home from "./views/Home.vue";
 import Books from "./views/Books.vue";
+import Book from "./views/Book.vue";
 import Popular from "./views/Popular.vue";
 import Languages from "./views/Languages.vue";
 import Categories from "./views/Categories.vue";
@@ -11,6 +12,7 @@ import NotFound from "./views/NotFound.vue";
 /** @type {import('vue-router').RouterOptions['routes']} */
 export let routes = [
   { path: "/", component: Home, meta: { title: "Gutenberg" } },
+  { path: "/books/:id", component: Book, meta: { title: "Book" } },
   { path: "/popular", component: Popular, meta: { title: "Popular" } },
   { path: "/languages", component: Languages, meta: { title: "Languages" } },
   { path: "/languages/:lang", component: Books, meta: { title: "Books" } },

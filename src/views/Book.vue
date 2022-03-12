@@ -1,21 +1,30 @@
 <template>
   <div class="mt-8">
-    <div class="max-w-2xl p-4 mx-auto lg:max-w-7xl">Detail book</div>
+    <BookDetail :book="book" />
   </div>
 </template>
 <script>
+import BookDetail from "../components/molecules/BookDetail.vue";
 export default {
+  components: {
+    BookDetail
+  },
   data() {
     return {
-      lang: this.$route.params.lang
+      id: this.$route.params.id
     };
   },
-  mounted() {
-    const lang = this.$route.params.lang;
-    if (lang === "all") {
-      this.$store.dispatch("fetchLocalBooks");
-    } else {
-      this.$store.dispatch("fetchLocalBooks", lang);
+  computed: {
+    book() {
+      return this.$store.state.book;
+    }
+  },
+  async mounted() {
+    try {
+      const id = this.$route.params.id;
+      await this.$store.dispatch("fetchBook", id);
+    } catch (error) {
+      console.log(error);
     }
   }
 };
