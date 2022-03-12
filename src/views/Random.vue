@@ -24,7 +24,7 @@ export default {
   },
   async mounted() {
     try {
-      await this.$store.dispatch("fetchBooks");
+      await this.$store.dispatch("fetchBooks", 1);
       await this.$store.dispatch("fetchBook", this.randomNumber());
     } catch (error) {
       console.log(error);

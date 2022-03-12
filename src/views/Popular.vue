@@ -5,26 +5,39 @@
     >
       Rank by popularity
     </h2>
-    <BookList :books="books.results" />
+    <div v-if="books.results">
+      <BookList :books="books.results" />
+      <Pagination :books="books" :page="page" />
+    </div>
   </div>
 </template>
 
 <script>
 import BookList from "../components/molecules/BookList.vue";
+import Pagination from "../components/molecules/Pagination.vue";
 export default {
   components: {
-    BookList
+    BookList,
+    Pagination
   },
   computed: {
     books() {
       return this.$store.state.books;
+    },
+    page() {
+      return this.$route.params.page;
     }
   },
-  async mounted() {
-    try {
-      await this.$store.dispatch("fetchBooks");
-    } catch (error) {
-      console.log(error);
+  mounted() {
+    this.fetchBooks();
+  },
+  methods: {
+    async fetchBooks() {
+      try {
+        await this.$store.dispatch("fetchBooks", this.page);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

@@ -3,14 +3,12 @@
     <img
       :src="`https://www.gutenberg.org/cache/epub/${book.id}/pg${book.id}.cover.medium.jpg`"
       alt="Book cover"
-      class="object-cover object-center w-full h-full lg:w-full lg:h-full"
+      class="object-cover object-center w-full h-full max-h-56"
     />
   </div>
   <div class="flex justify-center mt-4">
     <div>
       <h3 class="text-sm font-bold text-gray-900">
-        <router-link to="/home">Home</router-link>
-
         <router-link :to="`/books/${book.id}`">
           <span aria-hidden="true" class="absolute inset-0"></span>
           {{ book.title }}

@@ -31,8 +31,8 @@ const store = createStore({
       if (lang) store.commit("storeLocalBooks", await getBooksPerLanguage(lang));
       else store.commit("storeLocalBooks", await getLocalBooks());
     },
-    fetchBooks: async (store, id) => {
-      store.commit("storeBooks", await getBooks(id));
+    fetchBooks: async (store, page) => {
+      store.commit("storeBooks", await getBooks(page));
     },
     fetchBook: async (store, id) => {
       store.commit("storeBook", await getBook(id));

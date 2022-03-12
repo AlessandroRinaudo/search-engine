@@ -56,7 +56,7 @@ export default defineComponent({
       },
       {
         text: "Top 100",
-        to: "/popular"
+        to: "/popular/1"
       },
       {
         text: "Language",

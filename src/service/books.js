@@ -3,8 +3,8 @@ import data from "./database.json";
 const getLocalBooks = async () =>
   Object.values(data).reduce((acc, val) => acc.concat(val), []);
 
-const getBooks = async () => {
-  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/books`)
+const getBooks = async (page) => {
+  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/books?page=${page}`)
     .then((response) => response.json())
     .catch(error => {
       console.log("ERROR getBooks: ", error);
