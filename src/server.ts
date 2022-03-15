@@ -3,11 +3,13 @@ import express from "express";
 
 import connectDB from "../config/database";
 import user from "./routes/api/user";
+import index from "./routes/api/index";
 
 const app = express();
 
 // Connect to MongoDB
-connectDB().then(r => {});
+connectDB().then(() => {
+});
 
 // Express configuration
 app.set("port", process.env.PORT || 3000);
@@ -19,6 +21,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/user", user);
+app.use("/api/index", index)
 
 const port = app.get("port");
 const server = app.listen(port, () =>
