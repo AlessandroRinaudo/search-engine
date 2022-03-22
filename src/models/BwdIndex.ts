@@ -5,7 +5,7 @@ export interface IBwdIndex {
     id_books: Map<string, number>;
 }
 
-interface IBwdIndexDocument extends Document {
+interface IBwdIndexDocument extends Document, IBwdIndex {
 
 }
 

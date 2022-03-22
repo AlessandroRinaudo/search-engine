@@ -5,7 +5,7 @@ export interface IFwdIndex {
     words: Map<string, number>;
 }
 
-interface IFwdIndexDocument extends Document {
+interface IFwdIndexDocument extends Document, IFwdIndex {
 
 }
 
