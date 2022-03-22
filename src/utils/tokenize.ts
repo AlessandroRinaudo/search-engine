@@ -2,15 +2,31 @@
  * Tokenize the string and transform into a list of words
  */
 import * as fs from "fs";
+import {IFwdIndex} from "../models/FwdIndex";
 
-const tokenize = (line: String): String[] => {
+const tokenize = (line: string): string[] => {
     return line.split(/\s+/);
+}
+
+const count = (id: string, tokens: string[]): IFwdIndex => {
+    const index: Map<string, number> = new Map<string, number>()
+    tokens.forEach(word => {
+        if(!index.has(word)) {
+            index.set(word, 1);
+        } else {
+            index.set(word, index.get(word) + 1)
+        }
+    })
+    return {
+        id_book: id,
+        words: index
+    }
 }
 
 /**
  * Open a file in readonly and tokenize each line
  */
-const tokenize_file = async (file: String): Promise<String[]> => {
+const tokenize_file = async (file: string): Promise<string[]> => {
     return new Promise((resolve, reject) => {
         try {
             fs.readFile("" + file,
@@ -30,7 +46,7 @@ const tokenize_file = async (file: String): Promise<String[]> => {
 /**
  * Open a directory and tokenize each file
  */
-export const tokenize_dir = async (dir: String): Promise<String[][]> => {
+const tokenize_dir = async (dir: string): Promise<String[][]> => {
     return new Promise((resolve, reject) => {
         try {
             fs.readdir("" + dir,
@@ -46,4 +62,11 @@ export const tokenize_dir = async (dir: String): Promise<String[][]> => {
             reject("Could not parse dir" + dir + " with " + e);
         }
     })
+}
+
+
+export const tokenization = {
+    tokenize_file,
+    tokenize_dir,
+    count
 }
