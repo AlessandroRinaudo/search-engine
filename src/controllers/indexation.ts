@@ -24,6 +24,21 @@ const fwd_index = async (req: Request, res: Response) => {
     }
 }
 
+const bwd_index = async (req: Request, res: Response) => {
+    try {
+        /*
+         TODO:
+          - Get all data from fwd index
+          - Construct bwd index from data
+         */
+        const data = "Not Implemented yet"
+        handleSuccess(req, res, data)
+    } catch (e) {
+        handleErrors(req, res, e.message)
+    }
+}
+
 export const indexation = {
-    fwd_index
+    fwd_index,
+    bwd_index
 }
