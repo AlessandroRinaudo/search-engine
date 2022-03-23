@@ -5,6 +5,7 @@ import connectDB from "../config/database";
 import user from "./routes/api/user";
 import index from "./routes/api/index";
 import book from "./routes/api/book";
+import search from "./routes/api/search";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get("/", (_req, res) => {
 app.use("/api/user", user);
 app.use("/api/index", index);
 app.use("/api/book", book);
+app.use("/api/search", search);
 
 const port = app.get("port");
 const server = app.listen(port, () =>
