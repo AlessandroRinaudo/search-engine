@@ -2,7 +2,13 @@
 - Récupérer X livres dans Gutendex
 - Télécharger les X livres de Gutendex dans le dossier Data
 - Pour chaque livre :
-  - Lancer une requête pour indexer ce livre dans fwdindex
-  - Lancer une requête pour insérer les métadonnées de ce livre dans books
+  - Lancer une requête POST pour indexer ce livre dans fwdindex. 
+    - URL : http://localhost:3000/api/index/forward
+    - BODY: id_book: 123, file: book.txt 
+  - Lancer une requête POST pour insérer les métadonnées de ce livre dans books 
+    - URL : http://localhost:3000/api/book/insert
+    - BODY: book_data
   - NB: Faire attention aux ids de livres pour qu'ils correspondent entre books et fwdindex
-- Lancer une requête qui va faire le bwd index sur tous les livres présents dans fwdindex
+- Lancer une requête qui va faire le bwd index sur tous les livres présents dans fwdindex 
+  - URL : http://localhost:3000/api/index/backward
+  - BODY: None

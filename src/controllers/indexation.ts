@@ -4,20 +4,24 @@ import IFwdIndexModel, {IFwdIndex} from "../models/FwdIndex";
 import {handleErrors, handleSuccess} from "../utils/requests";
 import IBwdIndexModel, {IBwdIndex} from "../models/BwdIndex";
 
-
+/**
+ * POST forward index a book
+ * Body : filename, id_book
+ */
 const fwd_index = async (req: Request, res: Response) => {
     try {
-        // TODO: Get from request or extract from dir
-        const file = "data/book_1.txt"
-        const id = "456"
+        // Base directory
+        const dir = "data/"
+        const file = dir + req.body["file"]
+        const id_book = req.body["id_book"]
 
         // Tokenize and count file
         const tokens = await tokenization.tokenize_file(file)
-        const indexed: IFwdIndex = tokenization.count(id, tokens)
+        const indexed: IFwdIndex = tokenization.count(id_book, tokens)
 
         // Insert or replace document into db if exists
         const data = await IFwdIndexModel.findOneAndReplace(
-            {id_book: id}, indexed, {upsert: true}
+            {id_book: id_book}, indexed, {upsert: true}
         )
         handleSuccess(req, res, data)
     } catch (e) {
@@ -25,6 +29,10 @@ const fwd_index = async (req: Request, res: Response) => {
     }
 }
 
+/**
+ * POST backward index all books
+ * Body : None
+ */
 const bwd_index = async (req: Request, res: Response) => {
     try {
         const books: IFwdIndex[] = await IFwdIndexModel.find({})
@@ -84,8 +92,6 @@ const compute_total_count = (book: IFwdIndex): number => {
 
 
 const compute_score = (count: number, total_count: number): number => {
-    console.log(count)
-    console.log(total_count)
     return count / total_count
 }
 
