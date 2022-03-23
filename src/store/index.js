@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { getLanguages, getBooksPerLanguage, getLocalBooks, getBooks, getBook } from "../service/books";
+import { getLanguages, getBooksPerLanguage, getLocalBooks, getBooks, getBook, searchBooks } from "../service/books";
 
 const store = createStore({
   state: {
@@ -36,7 +36,10 @@ const store = createStore({
     },
     fetchBook: async (store, id) => {
       store.commit("storeBook", await getBook(id));
-    }
+    },
+    fetchSearch: async (store, item) => {
+      store.commit("storeBooks", await searchBooks(item));
+    },
   },
   modules: {},
   getters: {}

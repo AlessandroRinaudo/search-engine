@@ -19,8 +19,15 @@ const getBook = async (id) => {
     });
 }
 
+const searchBooks = async ({ page, word }) => {
+  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/books?page=${page}&search=${word}`)
+    .then((response) => response.json())
+    .catch(error => {
+      console.log("ERROR searchBooks: ", error);
+    });
+}
 const getBooksPerLanguage = async (language) => data[language];
 
 const getLanguages = async () => Object.keys(data);
 
-export { getBook, getBooks, getLocalBooks, getBooksPerLanguage, getLanguages };
+export { getBook, getBooks, searchBooks, getLocalBooks, getBooksPerLanguage, getLanguages };
