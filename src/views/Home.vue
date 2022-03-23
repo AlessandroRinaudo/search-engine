@@ -32,27 +32,28 @@
               eBooks that have similar topics.
             </p>
             <div class="mt-10 sm:mt-12">
-              <form action="#" class="sm:max-w-xl sm:mx-auto lg:mx-0">
-                <div class="sm:flex">
-                  <div class="min-w-0 flex-1">
-                    <label for="book" class="sr-only">Enter a book</label>
-                    <input
-                      id="book"
-                      type="string"
-                      placeholder="Tape something..."
-                      class="block w-full px-4 py-3 rounded-md border border-gray-300 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700"
-                    />
-                  </div>
-                  <div class="mt-3 sm:mt-0 sm:ml-3">
-                    <button
-                      type="submit"
-                      class="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700"
-                    >
-                      Search
-                    </button>
-                  </div>
+              <div class="sm:max-w-xl sm:mx-auto lg:mx-0 sm:flex">
+                <div class="min-w-0 flex-1">
+                  <label for="book" class="sr-only">Enter a book</label>
+                  <input
+                    id="book"
+                    v-model="searchText"
+                    type="text"
+                    name="book"
+                    placeholder="Tape something..."
+                    class="block w-full px-4 py-3 rounded-md border border-gray-300 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700"
+                    @keyup.enter="submit()"
+                  />
                 </div>
-              </form>
+                <div class="mt-3 sm:mt-0 sm:ml-3">
+                  <a
+                    class="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700"
+                    :href="`/search?q=${searchText}&page=1`"
+                  >
+                    Search
+                  </a>
+                </div>
+              </div>
             </div>
             <div
               class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
@@ -101,3 +102,15 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data: () => ({
+    searchText: ""
+  }),
+  methods: {
+    submit() {
+      return (window.location.href = `/search?q=${this.searchText}&page=1`);
+    }
+  }
+};
+</script>

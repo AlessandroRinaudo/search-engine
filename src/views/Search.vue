@@ -58,7 +58,6 @@
                 v-model="searchText"
                 type="text"
                 name="book"
-                autocomplete="given-name"
                 :placeholder="word"
                 class="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
                 @keyup.enter="submit()"
@@ -117,8 +116,6 @@ export default {
   methods: {
     async fetchSearch() {
       try {
-        console.log(this.$route.query.q);
-        console.log(this.$route.query.page);
         await this.$store.dispatch("fetchSearch", {
           page: this.page,
           word: this.word
