@@ -26,14 +26,14 @@
     <div class="flex-1 flex justify-between sm:justify-end">
       <a
         v-if="books.previous"
-        :href="`/${pageName}/${Number(page) - 1}`"
+        :href="`/${pageName}&page=${Number(page) - 1}`"
         class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
       >
         Previous
       </a>
       <a
         v-if="books.next"
-        :href="`/${pageName}/${Number(page) + 1}`"
+        :href="`/${pageName}&page=${Number(page) + 1}`"
         class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
       >
         Next

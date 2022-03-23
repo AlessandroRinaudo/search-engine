@@ -7,7 +7,7 @@
     </h2>
     <div v-if="books.results">
       <BookList :books="books.results" />
-      <Pagination :books="books" :page="page" />
+      <Pagination :books="books" :page="page" page-name="popular" />
     </div>
   </div>
 </template>
@@ -15,6 +15,7 @@
 <script>
 import BookList from "../components/molecules/BookList.vue";
 import Pagination from "../components/molecules/Pagination.vue";
+
 export default {
   components: {
     BookList,
