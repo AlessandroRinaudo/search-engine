@@ -4,7 +4,7 @@ import IBookModel, {IBook} from "../models/Book";
 
 /**
  * POST Insert a book
- * Body :
+ * /book/
  */
 const insert = async (req: Request, res: Response) => {
     try {
@@ -27,14 +27,47 @@ const insert = async (req: Request, res: Response) => {
 const get = async (req: Request, res: Response) => {
     try {
         const id_book: string = req.params.id
-        const data = await IBookModel.findOne({id_book:id_book})
+        const data = await IBookModel.findOne({id_book: id_book})
         handleSuccess(req, res, data)
     } catch (e) {
         handleErrors(req, res, e.message)
     }
 }
 
+/**
+ * Find
+ * /book/
+ */
+const find = async (req: Request, res: Response) => {
+    try {
+        const filter = <object>req.query?.filter || {};
+        const sort= <string>req.query?.sort || ""
+        const data = await IBookModel.find({...filter},).sort(
+            parse_sort(sort)
+        )
+        handleSuccess(req, res, data)
+    } catch (e) {
+        handleErrors(req, res, e.message)
+    }
+}
+
+const parse_sort = (str: string): Record<string, number> => {
+    if(str === "") {
+        return {}
+    }
+    let order;
+    if (str[0] === "-") {
+        order = -1
+    } else {
+        order = 1
+    }
+    return {
+        [str.slice(0).trim()]: order
+    }
+}
+
 export const book = {
     insert,
-    get
+    get,
+    find
 }
