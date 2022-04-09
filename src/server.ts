@@ -6,6 +6,7 @@ import user from "./routes/api/user";
 import index from "./routes/api/index";
 import book from "./routes/api/book";
 import search from "./routes/api/search";
+import cors from 'cors';
 
 const app = express();
 
@@ -17,6 +18,7 @@ connectDB().then(() => {
 app.set("port", process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(cors());
 
 app.get("/", (_req, res) => {
     res.send("API Running");
