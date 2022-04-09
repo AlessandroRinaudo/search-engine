@@ -3,18 +3,22 @@
  */
 import * as fs from "fs";
 import {IFwdIndex} from "../models/FwdIndex";
+import Tokenizer, {Token} from "wink-tokenizer";
 
-const tokenize = (line: string): string[] => {
-    return line.split(/\s+/);
+const tokenize = (line: string): Token[] => {
+    const tokenizer = new Tokenizer();
+    return tokenizer.tokenize(line);
 }
 
-const count = (id: string, tokens: string[]): IFwdIndex => {
+const count = (id: string, tokens: Token[]): IFwdIndex => {
     const index: Map<string, number> = new Map<string, number>()
     tokens.forEach(word => {
-        if(!index.has(word)) {
-            index.set(word, 1);
-        } else {
-            index.set(word, index.get(word) + 1)
+        if (word.tag === "word") {
+            if (!index.has(word.value)) {
+                index.set(word.value, 1);
+            } else {
+                index.set(word.value, index.get(word.value) + 1)
+            }
         }
     })
     return {
@@ -26,7 +30,7 @@ const count = (id: string, tokens: string[]): IFwdIndex => {
 /**
  * Open a file in readonly and tokenize each line
  */
-const tokenize_file = async (file: string): Promise<string[]> => {
+const tokenize_file = async (file: string): Promise<Token[]> => {
     return new Promise((resolve, reject) => {
         try {
             fs.readFile("" + file,
@@ -46,7 +50,7 @@ const tokenize_file = async (file: string): Promise<string[]> => {
 /**
  * Open a directory and tokenize each file
  */
-const tokenize_dir = async (dir: string): Promise<String[][]> => {
+const tokenize_dir = async (dir: string): Promise<Token[][]> => {
     return new Promise((resolve, reject) => {
         try {
             fs.readdir("" + dir,

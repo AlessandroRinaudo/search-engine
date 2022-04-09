@@ -4,6 +4,7 @@ import IFwdIndexModel, {IFwdIndex} from "../models/FwdIndex";
 import {handleErrors, handleSuccess} from "../utils/requests";
 import IBwdIndexModel, {IBwdIndex} from "../models/BwdIndex";
 
+
 /**
  * POST forward index a book
  * Body : filename, id_book
