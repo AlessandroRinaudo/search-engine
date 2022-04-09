@@ -46,6 +46,7 @@ export class DFA {
 
         const nfaStates = Array.from(nfaTable.keys());
 
+        // @ts-ignore
         const startState = nfaTable.get(nfaStates[0])![EPSILON_CLOSURE];
 
         // Stack contains unvisited states
