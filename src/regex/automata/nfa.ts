@@ -76,6 +76,7 @@ export class NFA {
                     visitState(next);
                     mergedState.push(next.label);
                 }
+                // @ts-ignore
                 this.transitionTable.get(state.label)![symbol] = mergedState;
             })
         }
@@ -84,9 +85,11 @@ export class NFA {
 
         const computeEpsilonTransition = () => {
             visitedStates.forEach((state) => {
+                // @ts-ignore
                 this.transitionTable.get(state.label)![EPSILON_CLOSURE] =
                     [...state.getEpsilonClosure()]
                         .map(m => m.label);
+                // @ts-ignore
                 delete this.transitionTable.get(state.label)![EPSILON];
             })
         };
@@ -146,6 +149,7 @@ export class NFA {
      * @param startingState
      */
     getTransitionsOnSymbol(startingState: SN, symbol: string): Array<SN> | undefined {
+        // @ts-ignore
         return this.transitionTable.get(startingState)![symbol];
     }
 
