@@ -2,14 +2,30 @@ import {Request, Response} from "express";
 import IBookModel from "../models/Book";
 import {handleErrors, handleSuccess} from "../utils/requests";
 import IBwdIndexModel, {IBwdIndex} from "../models/BwdIndex";
+import {isRegex} from "../regex/utils/utils";
+import {FA} from "../regex/automata/fa";
 
 /**
  * GET search for a book with given criteria
  */
 const search = async (req: Request, res: Response) => {
     try {
+        // Check if query is regex
+        let words: string[] = (<string>req.query.q).split(" ");
+        if(words.length == 1 && _isRegex(words[0])) {
+            const expression = _extractRegexPattern(words[0])
+            const dfa = FA.createDFA(expression);
+            const indexes = await IBwdIndexModel.find({})
+            const res: string[] = []
+            indexes.forEach((index: IBwdIndex) => {
+                const matched = dfa.match(index.word);
+                if(matched.length > 0) {
+                   res.push(index.word);
+                }
+            });
+            words = res;
+        }
         // Find words in bwd index
-        const words: string[] = (<string>req.query.q).split(" ");
         const page = parseInt(<string>req.query.page) || 1;
         const limit = parseInt(<string>req.query.limit) || 3;
 
@@ -47,6 +63,14 @@ const search = async (req: Request, res: Response) => {
     } catch (e) {
         handleErrors(req, res, e.message)
     }
+}
+
+const _isRegex = (str: string): boolean => {
+    return str[0] === "[" && str[-1] === "]" && isRegex(_extractRegexPattern(str));
+}
+
+const _extractRegexPattern = (str: string): string => {
+    return str.slice(1, -1);
 }
 
 export const search_controller = {
