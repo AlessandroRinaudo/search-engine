@@ -39,10 +39,9 @@ const bwd_index = async (req: Request, res: Response) => {
         let index_updated_cpt = 0
         let index_error_cpt = 0
         for (let book of books) {
-            const total_count = compute_total_count(book)
             for (let [word, count] of book.words) {
                 try {
-                    await findOneAndUpdateScore(book.id_book, word, count, total_count)
+                    await findOneAndUpdateScore(book.id_book, word, count)
                     index_updated_cpt++
                 } catch (e) {
                     console.error("Could not update " + e.message)
@@ -58,7 +57,7 @@ const bwd_index = async (req: Request, res: Response) => {
 }
 
 
-const findOneAndUpdateScore = async (id_book: string, word: string, count: number, total_count: number) => {
+const findOneAndUpdateScore = async (id_book: string, word: string, count: number) => {
     // Find the corresponding word in backward index
     // Compute score
     let bwd_index: IBwdIndex =
@@ -69,8 +68,7 @@ const findOneAndUpdateScore = async (id_book: string, word: string, count: numbe
             id_books: new Map<string, number>()
         }
     }
-    const score = compute_score(count, total_count);
-    bwd_index.id_books.set(id_book, score)
+    bwd_index.id_books.set(id_book, count)
 
     // Update word with new book id and score
     const inserted_bwd_index =
@@ -79,20 +77,6 @@ const findOneAndUpdateScore = async (id_book: string, word: string, count: numbe
             bwd_index,
             {upsert: true}
         )
-}
-
-
-const compute_total_count = (book: IFwdIndex): number => {
-    let sum = 0
-    book.words
-        .forEach(
-            (count: number, word: string) => sum += +count)
-    return sum
-}
-
-
-const compute_score = (count: number, total_count: number): number => {
-    return count / total_count
 }
 
 export const indexation = {
