@@ -77,7 +77,7 @@ export interface IState {
 
 export type SN = string | number;
 
-export interface ITransition {
-    [key: SN]: SN[];
-}
+export type ITransition = {
+    [key in SN]: SN[];
+};
 
