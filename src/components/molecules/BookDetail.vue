@@ -1,29 +1,32 @@
 <template>
   <div class="mt-5 py-6">
-    <div class="lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
+    <div
+      v-if="book.results"
+      class="lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8"
+    >
       <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
         <div class="flex">
           <div
             class="hidden sm:block w-40 mr-8 bg-gray-200 rounded-md group-hover:opacity-75"
           >
             <img
-              :src="`https://www.gutenberg.org/cache/epub/${book.id}/pg${book.id}.cover.medium.jpg`"
+              :src="`https://www.gutenberg.org/cache/epub/${book.results.id_book}/pg${book.results.id_book}.cover.medium.jpg`"
               alt="Book cover"
               class="object-cover object-center w-full h-full lg:w-full lg:h-full"
             />
           </div>
           <div class="flex flex-col">
             <h1 class="text-2xl font-extrabold tracking-tight text-gray-900">
-              {{ book.title }}
+              {{ book.results.title }}
             </h1>
             <h3 class="mt-4 sm:mt-10 text-sm font-medium text-gray-900">
               Gutenberg link
             </h3>
             <a
-              :href="`https://www.gutenberg.org/ebooks/${book.id}`"
+              :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}`"
               class="mt-4 text-gray-600 text-sm"
             >
-              {{ `https://www.gutenberg.org/ebooks/${book.id}` }}
+              {{ `https://www.gutenberg.org/ebooks/${book.results.id_book}` }}
             </a>
           </div>
         </div>
@@ -34,7 +37,7 @@
         <div class="mt-6">
           <h3 class="text-sm font-medium text-gray-900">Total download</h3>
           <div class="mt-4 text-gray-600 text-sm">
-            {{ book.download_count }}
+            {{ book.results.download_count }}
           </div>
         </div>
 
@@ -42,7 +45,7 @@
           <h3 class="text-sm font-medium text-gray-900">Author</h3>
           <div class="mt-4">
             <ul
-              v-for="(author, i) in book.authors"
+              v-for="(author, i) in book.results.authors"
               :key="`author-${i}`"
               role="list"
               class="pl-4 list-disc text-sm space-y-2"
@@ -61,7 +64,7 @@
           <h3 class="text-sm font-medium text-gray-900">Subjects</h3>
           <div class="mt-4">
             <ul
-              v-for="(subject, i) in book.subjects"
+              v-for="(subject, i) in book.results.subjects"
               :key="`subject-${i}`"
               role="list"
               class="pl-4 list-disc text-sm space-y-2"
@@ -77,7 +80,7 @@
           <h3 class="text-sm font-medium text-gray-900">Bookshelves</h3>
           <div class="mt-4">
             <ul
-              v-for="(bookshelve, i) in book.bookshelves"
+              v-for="(bookshelve, i) in book.results.bookshelves"
               :key="`bookshelve-${i}`"
               role="list"
               class="pl-4 list-disc text-sm space-y-2"
@@ -93,7 +96,7 @@
           <h3 class="text-sm font-medium text-gray-900">Languages</h3>
           <div class="mt-4">
             <ul
-              v-for="(language, i) in book.languages"
+              v-for="(language, i) in book.results.languages"
               :key="`language-${i}`"
               role="list"
               class="pl-4 list-disc text-sm space-y-2"
@@ -144,11 +147,11 @@
                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 hover:cursor-pointer"
                           >
                             <a
-                              :href="`https://www.gutenberg.org/ebooks/${book.id}.epub.images`"
+                              :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.epub.images`"
                               class="text-indigo-600 hover:text-indigo-900 truncate"
                             >
                               {{
-                                `https://www.gutenberg.org/ebooks/${book.id}.epub.images`
+                                `https://www.gutenberg.org/ebooks/${book.results.id_book}.epub.images`
                               }}
                             </a>
                           </td>
@@ -163,11 +166,11 @@
                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 hover:cursor-pointer"
                           >
                             <a
-                              :href="`https://www.gutenberg.org/ebooks/${book.id}.rdf`"
+                              :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.rdf`"
                               class="text-indigo-600 hover:text-indigo-900 truncate"
                             >
                               {{
-                                `https://www.gutenberg.org/ebooks/${book.id}.rdf`
+                                `https://www.gutenberg.org/ebooks/${book.results.id_book}.rdf`
                               }}
                             </a>
                           </td>
@@ -182,11 +185,11 @@
                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 hover:cursor-pointer"
                           >
                             <a
-                              :href="`https://www.gutenberg.org/ebooks/${book.id}.kindle.images`"
+                              :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.kindle.images`"
                               class="text-indigo-600 hover:text-indigo-900 truncate"
                             >
                               {{
-                                `https://www.gutenberg.org/ebooks/${book.id}.kindle.images`
+                                `https://www.gutenberg.org/ebooks/${book.results.id_book}.kindle.images`
                               }}
                             </a>
                           </td>
@@ -201,11 +204,11 @@
                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 hover:cursor-pointer"
                           >
                             <a
-                              :href="`https://www.gutenberg.org/ebooks/${book.id}.html.images`"
+                              :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.html.images`"
                               class="text-indigo-600 hover:text-indigo-900 truncate"
                             >
                               {{
-                                `https://www.gutenberg.org/ebooks/${book.id}.html.images`
+                                `https://www.gutenberg.org/ebooks/${book.results.id_book}.html.images`
                               }}
                             </a>
                           </td>
@@ -220,11 +223,11 @@
                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 hover:cursor-pointer"
                           >
                             <a
-                              :href="`https://www.gutenberg.org/file/${book.id}/${book.id}-0.zip`"
+                              :href="`https://www.gutenberg.org/file/${book.results.id_book}/${book.results.id_book}-0.zip`"
                               class="text-indigo-600 hover:text-indigo-900 truncate"
                             >
                               {{
-                                `https://www.gutenberg.org/file/${book.id}/${book.id}-0.zip`
+                                `https://www.gutenberg.org/file/${book.results.id_book}/${book.results.id_book}-0.zip`
                               }}
                             </a>
                           </td>
@@ -248,49 +251,52 @@ export default {
       type: Object,
       required: true,
       default: () => ({
-        id: 84,
-        title: "Frankenstein; Or, The Modern Prometheus",
-        authors: [
-          {
-            name: "Shelley, Mary Wollstonecraft",
-            birth_year: 1797,
-            death_year: 1851
-          }
-        ],
-        translators: [],
-        subjects: [
-          "Frankenstein's monster (Fictitious character) -- Fiction",
-          "Frankenstein, Victor (Fictitious character) -- Fiction",
-          "Gothic fiction",
-          "Horror tales",
-          "Monsters -- Fiction",
-          "Science fiction",
-          "Scientists -- Fiction"
-        ],
-        bookshelves: [
-          "Gothic Fiction",
-          "Movie Books",
-          "Precursors of Science Fiction",
-          "Science Fiction by Women"
-        ],
-        languages: ["en"],
-        copyright: false,
-        media_type: "Text",
-        formats: {
-          "application/epub+zip":
-            "https://www.gutenberg.org/ebooks/84.epub.images",
-          "application/rdf+xml": "https://www.gutenberg.org/ebooks/84.rdf",
-          "application/x-mobipocket-ebook":
-            "https://www.gutenberg.org/ebooks/84.kindle.images",
-          "text/html; charset=utf-8":
-            "https://www.gutenberg.org/files/84/84-h.zip",
-          "text/html": "https://www.gutenberg.org/ebooks/84.html.images",
-          "image/jpeg":
-            "https://www.gutenberg.org/cache/epub/84/pg84.cover.medium.jpg",
-          "text/plain; charset=utf-8":
-            "https://www.gutenberg.org/files/84/84-0.zip"
-        },
-        download_count: 65549
+        success: true,
+        results: {
+          id: 84,
+          title: "Frankenstein; Or, The Modern Prometheus",
+          authors: [
+            {
+              name: "Shelley, Mary Wollstonecraft",
+              birth_year: 1797,
+              death_year: 1851
+            }
+          ],
+          translators: [],
+          subjects: [
+            "Frankenstein's monster (Fictitious character) -- Fiction",
+            "Frankenstein, Victor (Fictitious character) -- Fiction",
+            "Gothic fiction",
+            "Horror tales",
+            "Monsters -- Fiction",
+            "Science fiction",
+            "Scientists -- Fiction"
+          ],
+          bookshelves: [
+            "Gothic Fiction",
+            "Movie Books",
+            "Precursors of Science Fiction",
+            "Science Fiction by Women"
+          ],
+          languages: ["en"],
+          copyright: false,
+          media_type: "Text",
+          formats: {
+            "application/epub+zip":
+              "https://www.gutenberg.org/ebooks/84.epub.images",
+            "application/rdf+xml": "https://www.gutenberg.org/ebooks/84.rdf",
+            "application/x-mobipocket-ebook":
+              "https://www.gutenberg.org/ebooks/84.kindle.images",
+            "text/html; charset=utf-8":
+              "https://www.gutenberg.org/files/84/84-h.zip",
+            "text/html": "https://www.gutenberg.org/ebooks/84.html.images",
+            "image/jpeg":
+              "https://www.gutenberg.org/cache/epub/84/pg84.cover.medium.jpg",
+            "text/plain; charset=utf-8":
+              "https://www.gutenberg.org/files/84/84-0.zip"
+          },
+          download_count: 65549
+        }
       })
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="w-40 mx-auto my-0 bg-gray-200 rounded-md group-hover:opacity-75">
     <img
-      :src="`https://www.gutenberg.org/cache/epub/${book.id}/pg${book.id}.cover.medium.jpg`"
+      :src="`https://www.gutenberg.org/cache/epub/${book.id_book}/pg${book.id_book}.cover.medium.jpg`"
       alt="Book cover"
       class="object-cover object-center w-full h-full max-h-56"
     />
@@ -9,7 +9,7 @@
   <div class="flex justify-center mt-4">
     <div>
       <h3 class="text-sm font-bold text-gray-900">
-        <router-link :to="`/books/${book.id}`">
+        <router-link :to="`/books/${book.id_book}`">
           <span aria-hidden="true" class="absolute inset-0"></span>
           {{ book.title }}
         </router-link>

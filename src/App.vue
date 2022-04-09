@@ -109,10 +109,6 @@ export default defineComponent({
         to: "/languages"
       },
       {
-        text: "Category",
-        to: "/categories"
-      },
-      {
         text: "Random",
         to: "/random"
       },
