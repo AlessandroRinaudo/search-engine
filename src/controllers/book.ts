@@ -20,6 +20,21 @@ const insert = async (req: Request, res: Response) => {
     }
 }
 
+/**
+ * GET a book
+ * /book/:id
+ */
+const get = async (req: Request, res: Response) => {
+    try {
+        const id_book: string = req.params.id
+        const data = await IBookModel.findOne({id_book:id_book})
+        handleSuccess(req, res, data)
+    } catch (e) {
+        handleErrors(req, res, e.message)
+    }
+}
+
 export const book = {
-    insert
+    insert,
+    get
 }
