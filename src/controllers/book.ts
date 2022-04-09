@@ -41,10 +41,11 @@ const get = async (req: Request, res: Response) => {
 const find = async (req: Request, res: Response) => {
     try {
         const filter = <object>req.query?.filter || {};
+        const limit = parseInt(<string>req.query.limit) || 20;
         const sort= <string>req.query?.sort || ""
         const data = await IBookModel.find({...filter},).sort(
             parse_sort(sort)
-        )
+        ).limit(limit)
         handleSuccess(req, res, data)
     } catch (e) {
         handleErrors(req, res, e.message)
