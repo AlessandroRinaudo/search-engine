@@ -22,8 +22,9 @@ const fwd_index = async (req: Request, res: Response) => {
 
         // Insert or replace document into db if exists
         const data = await IFwdIndexModel.findOneAndReplace(
-            {id_book: id_book}, indexed, {upsert: true}
+            {id_book: id_book}, indexed, {upsert: true, returnDocument: 'after'}
         )
+        console.log(data)
         handleSuccess(req, res, data)
     } catch (e) {
         handleErrors(req, res, e.message)
