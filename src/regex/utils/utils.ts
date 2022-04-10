@@ -15,10 +15,14 @@ export const parse = (expression: string): DFA => {
 
 /**
  * Returns true if this string str is a RegExp
- * @param string
+ * @param str
  */
  export function isRegex(str: string): boolean {
-    if (str.includes("|")) return true;
-    if (str.includes("*")) return true;
-    return false;
+    let isValid = true;
+    try {
+        new RegExp(str);
+    } catch(e) {
+        isValid = false;
+    }
+    return isValid;
 }
