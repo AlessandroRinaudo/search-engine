@@ -10,7 +10,7 @@ export interface IBook {
     id_book: string;
     title: string;
     authors: IAuthor[];
-    translators: [];
+    translators: IAuthor[];
     subjects: string[];
     bookshelves: string[];
     languages: string[];
@@ -32,7 +32,11 @@ const bookSchema: Schema<IBookDocument> = new Schema({
         birth_year: Number,
         death_year: Number
     }],
-    translators: [String],
+    translators: [{
+        name: String,
+        birth_year: Number,
+        death_year: Number
+    }],
     subjects: [String],
     bookshelves: [String],
     languages: [String],
