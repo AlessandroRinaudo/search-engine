@@ -7,6 +7,7 @@ import index from "./routes/api/index";
 import book from "./routes/api/book";
 import search from "./routes/api/search";
 import cors from 'cors';
+import admin from "./routes/api/admin";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/api/user", user);
 app.use("/api/index", index);
 app.use("/api/book", book);
 app.use("/api/search", search);
+app.use("/api/admin", admin)
 
 const port = app.get("port");
 const server = app.listen(port, () =>
