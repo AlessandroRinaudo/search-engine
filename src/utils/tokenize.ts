@@ -37,9 +37,6 @@ const count = (id: string, tokens: string[]): Promise<IFwdIndex> => {
                 console.error("Could not create object: " + e)
             }
         }
-        if(words.length === 0) {
-            reject("There was no valid words to tokenize")
-        }
         resolve({
             id_book: id,
             words
@@ -90,6 +87,7 @@ const tokenize_dir = async (dir: string): Promise<string[][]> => {
 
 
 export const tokenization = {
+    tokenize_line: tokenize,
     tokenize_file,
     tokenize_dir,
     count
