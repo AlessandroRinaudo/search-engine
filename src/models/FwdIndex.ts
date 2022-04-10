@@ -24,7 +24,6 @@ const fwdIndexSchema: Schema<IFwdIndexDocument> = new Schema({
         name: {
             type: String,
             required: true,
-            unique: true
         },
         score: {
             type: Number,
