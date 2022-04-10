@@ -66,4 +66,6 @@ node remove_audiobooks.js
 (cd test && rm delete.txt)
 mv test/books/* ../data
 
+node fw.js
+sleep 10
 node dataToDb2.js

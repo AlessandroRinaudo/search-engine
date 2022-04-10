@@ -22,21 +22,21 @@ csvtojson().fromFile(fileName).then(source => {
 
     const fileName = `${oneRow.id}.txt`
 
-    axios.post('http://localhost:3000/api/index/forward', {
-      id_book: oneRow.id,
-      file: fileName
-    })
+    // axios.post('http://localhost:3000/api/index/forward', {
+    //   id_book: oneRow.id,
+    //   file: fileName
+    // })
 
     axios.post('http://localhost:3000/api/book/insert', {
       id: oneRow.id,
       title: oneRow.title,
       authors: { name: oneRow.authorName + " " + oneRow.authorLastName, birth_year: "1997" },
-      translators: "[]",
+      translators: [],
       subjects: "la tu mammdzefa",
       bookshelves: "lol",
       languages: oneRow.languages,
       copyright: "false",
-      mediatype: "dcvf",
+      mediatype: "",
       download_count: oneRow.download_count
     })
       .then(function (response) {
