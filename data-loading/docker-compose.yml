@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+    mongo:
+        container_name: mongodb-daar-test-1
+        volumes:
+            - '/Users/$USER/Desktop/data-mongo:/data/db1'
+        ports:
+            - '27017:27017'
+        image: mongo
+        environment:
+          - MONGO_INIT_DATABASE=books
