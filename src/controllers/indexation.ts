@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import {tokenization} from "../utils/tokenize";
-import IFwdIndexModel, {IFwdIndex} from "../models/FwdIndex";
+import IFwdIndexModel, {IFwdIndex, IWord} from "../models/FwdIndex";
 import {handleErrors, handleSuccess} from "../utils/requests";
 import IBwdIndexModel, {IBookScore} from "../models/BwdIndex";
 import * as es from "event-stream";
@@ -24,12 +24,14 @@ const fwd_index = async (req: Request, res: Response) => {
             .pipe(es.mapSync(async function (line: string) {
                     s.pause();
                     // Tokenize and count file
-                    const tokens: string[] = tokenization.tokenize_line(line)
-                    const indexed: IFwdIndex = await tokenization.count(id_book, tokens)
-                        .catch(error => {
-                            throw new Error(error)
-                        })
-                    indexed_arr.push(indexed)
+                    if(line.trim().length > 1){
+                        const tokens: string[] = tokenization.tokenize_line(line)
+                        const indexed: IFwdIndex = await tokenization.count(id_book, tokens)
+                            .catch(error => {
+                                throw new Error(error)
+                            })
+                        indexed_arr.push(indexed)
+                    }
                     s.resume();
                 })
                     .on('error', function (err) {
@@ -38,12 +40,30 @@ const fwd_index = async (req: Request, res: Response) => {
                     })
                     .on('end', async function () {
                         // Insert or replace document into db if exists
+                        const word_count: Map<string, number> = new Map<string, number>()
+                        for(let indexed of indexed_arr) {
+                            for(let word of indexed.words) {
+                                const key = word.name
+                               if(!word_count.has(key)) {
+                                   word_count.set(key, word.score);
+                               } else {
+                                   word_count.set(key, word_count.get(key) + word.score)
+                               }
+                            }
+                        }
+                        const word_score: IWord[] = []
+                        for(const word of word_count.keys()) {
+                            word_score.push({
+                                name: word,
+                                score: word_count.get(word)
+                            })
+                        }
                         await IFwdIndexModel.findOneAndUpdate(
                             {
                                 id_book: id_book
                             }, {
                                 '$push': {
-                                    'words': indexed_arr
+                                    'words': word_score
                                 }
                             }, {
                                 upsert: true, returnDocument: 'after'
@@ -65,20 +85,20 @@ const fwd_index = async (req: Request, res: Response) => {
  */
 const bwd_index = async (req: Request, res: Response) => {
     try {
-        const books: IFwdIndex[] = await IFwdIndexModel.find({})
         let index_updated_cpt = 0
         let index_error_cpt = 0
-        for (let book of books) {
-            for (let index of book.words) {
-                try {
-                    await findOneAndUpdateScore(book.id_book, index.name, index.score)
-                    index_updated_cpt++
-                } catch (e) {
-                    console.error("Could not update " + e.message)
-                    index_error_cpt++
+        let books = await IFwdIndexModel.find({})
+            for (let book of books) {
+                for (let index of book.words) {
+                    try {
+                        await findOneAndUpdateScore(book.id_book, index.name, index.score)
+                        index_updated_cpt++
+                    } catch (e) {
+                        console.error("Could not update " + e.message)
+                        index_error_cpt++
+                    }
                 }
             }
-        }
         const data = "Backward index : " + index_updated_cpt + " words created/updated successfully with " + index_error_cpt + " error"
         handleSuccess(req, res, data)
     } catch (e) {
