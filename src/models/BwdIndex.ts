@@ -6,7 +6,7 @@ export interface IBookScore {
 }
 export interface IBwdIndex {
     word: string;
-    id_books: Map<string, number>;
+    id_books: IBookScore[]
 }
 
 interface IBwdIndexDocument extends Document, IBwdIndex {
@@ -23,7 +23,6 @@ const bwdIndexSchema: Schema<IBwdIndexDocument> = new Schema({
         {
             id_book: {
                 type: String,
-                unique: true,
                 required: true
             },
             score: {
