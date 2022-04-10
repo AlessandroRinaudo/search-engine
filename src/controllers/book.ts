@@ -43,8 +43,9 @@ const find = async (req: Request, res: Response) => {
         const filter = <object>req.query?.filter || {};
         const limit = parseInt(<string>req.query.limit) || 20;
         const sort= <string>req.query?.sort || ""
+        const dir = <string>req.query?.dir || "asc"
         const data = await IBookModel.find({...filter},).sort(
-            parse_sort(sort)
+            parse_sort(sort, dir)
         ).limit(limit)
         handleSuccess(req, res, data)
     } catch (e) {
@@ -52,18 +53,9 @@ const find = async (req: Request, res: Response) => {
     }
 }
 
-const parse_sort = (str: string): Record<string, number> => {
-    if(str === "") {
-        return {}
-    }
-    let order;
-    if (str[0] === "-") {
-        order = -1
-    } else {
-        order = 1
-    }
+const parse_sort = (str: string, dir: string): Record<string, string> => {
     return {
-        [str.slice(0).trim()]: order
+        [str.trim()]: dir
     }
 }
 
