@@ -16,9 +16,17 @@ const fwd_index = async (req: Request, res: Response) => {
         const file = dir + req.body["file"]
         const id_book = req.body["id_book"]
 
+
         // Tokenize and count file
-        const tokens = await tokenization.tokenize_file(file)
-        const indexed: IFwdIndex = tokenization.count(id_book, tokens)
+        const tokens: string[] = await tokenization.tokenize_file(file)
+            .catch(error => {
+                throw new Error(error)
+            })
+
+        const indexed: IFwdIndex = await tokenization.count(id_book, tokens)
+            .catch(error => {
+                throw new Error(error)
+            })
 
         // Insert or replace document into db if exists
         const data = await IFwdIndexModel.findOneAndReplace(
@@ -40,9 +48,9 @@ const bwd_index = async (req: Request, res: Response) => {
         let index_updated_cpt = 0
         let index_error_cpt = 0
         for (let book of books) {
-            for (let [word, count] of book.words) {
+            for (let index of book.words) {
                 try {
-                    await findOneAndUpdateScore(book.id_book, word, count)
+                    await findOneAndUpdateScore(book.id_book, index.name, index.score)
                     index_updated_cpt++
                 } catch (e) {
                     console.error("Could not update " + e.message)
