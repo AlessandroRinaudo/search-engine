@@ -17,7 +17,6 @@ const fwd_index = async (req: Request, res: Response) => {
         const file = dir + req.body["file"]
         const id_book = req.body["id_book"]
 
-        let indexed_book_cpt = 0
         const indexed_arr: IFwdIndex[] = []
 
         const s = fs.createReadStream(file)
@@ -30,7 +29,6 @@ const fwd_index = async (req: Request, res: Response) => {
                         .catch(error => {
                             throw new Error(error)
                         })
-                    indexed_book_cpt++;
                     indexed_arr.push(indexed)
                     s.resume();
                 })
@@ -51,7 +49,7 @@ const fwd_index = async (req: Request, res: Response) => {
                                 upsert: true, returnDocument: 'after'
                             }
                         )
-                        const data = "Forward index : " + indexed_book_cpt + " books indexed successfully"
+                        const data = "Forward index id : " + id_book + " book indexed successfully"
                         handleSuccess(req, res, data)
                     })
             );
