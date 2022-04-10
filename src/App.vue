@@ -101,8 +101,8 @@ export default defineComponent({
         to: "/"
       },
       {
-        text: "Top 100",
-        to: "/popular/1"
+        text: "Popular",
+        to: "/popular"
       },
       {
         text: "Language",

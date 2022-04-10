@@ -7,26 +7,20 @@
     </h2>
     <div v-if="books.results">
       <BookList :books="books.results" />
-      <Pagination :books="books" :page="page" page-name="popular" />
     </div>
   </div>
 </template>
 
 <script>
 import BookList from "../components/molecules/BookList.vue";
-import Pagination from "../components/molecules/Pagination.vue";
 
 export default {
   components: {
-    BookList,
-    Pagination
+    BookList
   },
   computed: {
     books() {
-      return this.$store.state.books;
-    },
-    page() {
-      return this.$route.params.page;
+      return this.$store.getters.books;
     }
   },
   mounted() {
@@ -35,7 +29,7 @@ export default {
   methods: {
     async fetchBooks() {
       try {
-        await this.$store.dispatch("fetchBooks", this.page);
+        await this.$store.dispatch("fetchBooks");
       } catch (error) {
         console.log(error);
       }

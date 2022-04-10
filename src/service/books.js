@@ -3,8 +3,9 @@ import data from "./database.json";
 const getLocalBooks = async () =>
   Object.values(data).reduce((acc, val) => acc.concat(val), []);
 
-const getBooks = async (page) => {
-  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/book?page=${page}`)
+const getBooks = async (limit) => {
+  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/book/?sort=-download_count&limit=${limit
+    }`)
     .then((response) => response.json())
     .catch(error => {
       console.log("ERROR getBooks: ", error);
@@ -19,8 +20,9 @@ const getBook = async (id) => {
     });
 }
 
-const searchBooks = async ({ page, word }) => {
-  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/search?q=${word}&page=${page}`)
+const searchBooks = async ({ page, limit, word }) => {
+  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/search?q=${word}&limit=${limit
+    }&page=${page}`)
     .then((response) => response.json())
     .catch(error => {
       console.log("ERROR searchBooks: ", error);

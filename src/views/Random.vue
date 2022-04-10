@@ -16,15 +16,18 @@ export default {
   },
   computed: {
     book() {
-      return this.$store.state.book;
+      return this.$store.getters.book;
     },
-    total() {
-      return this.$store.state.books.count;
+    booksCount() {
+      return this.$store.getters.booksCount;
+    },
+    booksAvailable() {
+      return this.$store.getters.booksAvailable;
     }
   },
   async mounted() {
     try {
-      await this.$store.dispatch("fetchBooks", 1);
+      await this.$store.dispatch("fetchBooks");
       await this.$store.dispatch("fetchBook", this.randomNumber());
     } catch (error) {
       console.log(error);
@@ -32,7 +35,8 @@ export default {
   },
   methods: {
     randomNumber() {
-      return Math.floor(Math.random() * this.total);
+      let randomPosition = Math.floor(Math.random() * this.booksCount);
+      return this.booksAvailable[randomPosition];
     }
   }
 };

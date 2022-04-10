@@ -12,7 +12,7 @@ import NotFound from "./views/NotFound.vue";
 export let routes = [
   { path: "/", component: Home, meta: { title: "Gutenberg" } },
   { path: "/books/:id", component: Book, meta: { title: "Book" } },
-  { path: "/popular/:page", component: Popular, meta: { title: "Popular" } },
+  { path: "/popular", component: Popular, meta: { title: "Popular" } },
   { path: "/languages", component: Languages, meta: { title: "Languages" } },
   { path: "/languages/:lang", component: Books, meta: { title: "Books" } },
   { path: "/random", component: Random, meta: { title: "Random" } },
