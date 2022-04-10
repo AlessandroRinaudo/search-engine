@@ -40,13 +40,16 @@ const get = async (req: Request, res: Response) => {
  */
 const find = async (req: Request, res: Response) => {
     try {
-        const filter = <object>req.query?.filter || {};
+        const page = parseInt(<string>req.query.page) || 1;
         const limit = parseInt(<string>req.query.limit) || 20;
-        const sort= <string>req.query?.sort || ""
+        const filter = <object>req.query?.filter || {};
+        const sort = <string>req.query?.sort || ""
         const dir = <string>req.query?.dir || "asc"
-        const data = await IBookModel.find({...filter},).sort(
-            parse_sort(sort, dir)
-        ).limit(limit)
+        const data = await IBookModel
+            .find({...filter})
+            .sort(parse_sort(sort, dir))
+            .skip((page - 1) * limit)
+            .limit(limit);
         handleSuccess(req, res, data)
     } catch (e) {
         handleErrors(req, res, e.message)
