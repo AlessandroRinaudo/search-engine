@@ -2,35 +2,55 @@
  * Tokenize the string and transform into a list of words
  */
 import * as fs from "fs";
-import {IFwdIndex} from "../models/FwdIndex";
+import {IFwdIndex, IWord} from "../models/FwdIndex";
 import Tokenizer, {Token} from "wink-tokenizer";
 
-const tokenize = (line: string): Token[] => {
+const tokenize = (line: string): string[] => {
     const tokenizer = new Tokenizer();
-    return tokenizer.tokenize(line);
+    const tokens: Token[] = tokenizer.tokenize(line);
+    return tokens
+        .filter(t => t.tag === "word" && t.value.length > 3)
+        .map(t => t.value.toLowerCase())
 }
 
-const count = (id: string, tokens: Token[]): IFwdIndex => {
-    const index: Map<string, number> = new Map<string, number>()
-    tokens.forEach(word => {
-        if (word.tag === "word") {
-            if (!index.has(word.value)) {
-                index.set(word.value, 1);
+const count = (id: string, tokens: string[]): Promise<IFwdIndex> => {
+    return new Promise(((resolve, reject) => {
+        const index: Map<string, number> = new Map<string, number>()
+        // Count each occurrence of word
+        tokens.forEach(word => {
+            if (!index.has(word)) {
+                index.set(word, 1);
             } else {
-                index.set(word.value, index.get(word.value) + 1)
+                index.set(word, index.get(word) + 1)
+            }
+        })
+        const words = []
+        // Construct IFwdIndex
+        for (const key of index.keys()) {
+            try {
+                const bookScore: IWord = {
+                    name: key,
+                    score: index.get(key)
+                }
+                words.push(bookScore)
+            } catch (e) {
+                console.error("Could not create object: " + e)
             }
         }
-    })
-    return {
-        id_book: id,
-        words: index
-    }
+        if(words.length === 0) {
+            reject("There was no valid words to tokenize")
+        }
+        resolve({
+            id_book: id,
+            words
+        })
+    }))
 }
 
 /**
  * Open a file in readonly and tokenize each line
  */
-const tokenize_file = async (file: string): Promise<Token[]> => {
+const tokenize_file = async (file: string): Promise<string[]> => {
     return new Promise((resolve, reject) => {
         try {
             fs.readFile("" + file,
@@ -50,7 +70,7 @@ const tokenize_file = async (file: string): Promise<Token[]> => {
 /**
  * Open a directory and tokenize each file
  */
-const tokenize_dir = async (dir: string): Promise<Token[][]> => {
+const tokenize_dir = async (dir: string): Promise<string[][]> => {
     return new Promise((resolve, reject) => {
         try {
             fs.readdir("" + dir,
