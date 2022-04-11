@@ -7,14 +7,12 @@ import * as es from "event-stream";
 import fs from "fs";
 
 
-
-
 /**
  * GET a forward indexed book
  */
- const fwd_books = async (req: Request, res: Response) => {
+const fwd_books = async (req: Request, res: Response) => {
     try {
-   
+
         const data = await IFwdIndexModel.find().select('id_book')
 
         handleSuccess(req, res, data)
@@ -24,16 +22,15 @@ import fs from "fs";
 }
 
 
-
 /**
  * GET a forward indexed book
  * Body : id_book
  */
- const fwd_book = async (req: Request, res: Response) => {
+const fwd_book = async (req: Request, res: Response) => {
     try {
         const id_book = req.params.id
 
-        const data = await IFwdIndexModel.find({ id_book: id_book })
+        const data = await IFwdIndexModel.find({id_book: id_book})
 
         handleSuccess(req, res, data)
     } catch (e) {
@@ -146,6 +143,43 @@ const bwd_index = async (req: Request, res: Response) => {
 }
 
 
+const jaccard = async (req: Request, res: Response) => {
+    const id_book_1 = <string>req.body.id_book_1
+    const id_book_2 = <string>req.body.id_book_2
+
+    // Compute jaccard distance between these two id_s
+    const book_1_words = await IFwdIndexModel.findOne({id_book: id_book_1})
+    const book_2_words = await IFwdIndexModel.findOne({id_book: id_book_2})
+
+    const set_words = new Set<string>()
+
+    const index_book_1 = new Map<string, number>()
+    for (const word of book_1_words.words) {
+        const key = word.name
+        index_book_1.set(key, word.score)
+        set_words.add(key)
+    }
+
+    const index_book_2 = new Map<string, number>()
+    for (const word of book_2_words.words) {
+        const key = word.name
+        index_book_2.set(key, word.score)
+        set_words.add(key)
+    }
+
+    let sum_value = 0
+    let sum_total = 0
+    for (const word of set_words) {
+        let k_1 = index_book_1.get(word) || 0
+        let k_2 = index_book_2.get(word) || 0
+        sum_value += Math.max(k_1, k_2) - Math.min(k_1, k_2)
+        sum_total += Math.max(k_1, k_2)
+    }
+
+    let distance = sum_value / sum_total
+    handleSuccess(req, res, distance)
+}
+
 const findOneAndUpdateScore = async (id_book: string, word: string, count: number) => {
     // Find the corresponding word in backward index
     // Compute score
@@ -171,5 +205,6 @@ export const indexation = {
     fwd_index,
     bwd_index,
     fwd_book,
-    fwd_books
+    fwd_books,
+    jaccard
 }
