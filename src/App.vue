@@ -103,6 +103,10 @@ export default defineComponent({
         to: "/popular"
       },
       {
+        text: "Important",
+        to: "/important"
+      },
+      {
         text: "Language",
         to: "/languages"
       },
