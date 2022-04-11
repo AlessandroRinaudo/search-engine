@@ -6,7 +6,7 @@ const pwd = __dirname
 let result = "id,title,authorName,authorLastName,languages,download_count,copyright,subjects,bookshelves\n"
 
 const url = "mongodb://localhost:27017/";
-for (let i = 1; i < 20; i++) {
+for (let i = 1; i < 200; i++) {
   setTimeout(async () => {
     try {
       await axios.get(`http://gutendex.com/books/?page=${i}`)
