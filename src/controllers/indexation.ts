@@ -235,7 +235,7 @@ const closeness = async (req: Request, res: Response) => {
         }
     }
 
-    const cranks = []
+    let cranks = []
     for (const row of adjacency_list) {
         cranks.push({
             id: row.id_book,
@@ -244,12 +244,20 @@ const closeness = async (req: Request, res: Response) => {
     }
     cranks.sort((a,b) => b.score - a.score)
 
+    let limit = 0
     const data = []
     for(const crank of cranks) {
-        data.push({
-            ...(await IBookModel.findOne({id_book: crank.id})).toObject(),
-            score: crank.score
-        })
+        const book = await IBookModel.findOne({id_book: crank.id})
+        if(book) {
+            limit++;
+            data.push({
+                ...book.toObject(),
+                score: crank.score
+            })
+        }
+        if(limit > 10) {
+            break
+        }
     }
     handleSuccess(req, res, data)
 }
