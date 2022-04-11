@@ -21,6 +21,17 @@ const forwardResponse = async () => {
   }
 };
 
+const toDatabase = async (id_book, suggested_books) => {
+  try {
+    const resp = await axios.post(`http://localhost:3000/api/index/suggested`, {
+      id_book: id_book,
+      suggested_books: suggested_books
+    });
+    return resp
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 
 const jaccardAPI = async (val1, val2) => {
@@ -74,7 +85,7 @@ const res = (async () => {
   })
   // console.log(iter);
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 1; i < 3; i++) {
     let initArr = [...iter]
     initArr.splice(i, 1)
     // console.log(initArr);
@@ -91,6 +102,7 @@ const res = (async () => {
       id: iter[i],
       suggestedBooks: suggestions
     })
+    await toDatabase(iter[i], suggestions)
   }
   console.log(finalRes);
 
