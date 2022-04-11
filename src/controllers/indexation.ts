@@ -6,6 +6,24 @@ import IBwdIndexModel, {IBookScore} from "../models/BwdIndex";
 import * as es from "event-stream";
 import fs from "fs";
 
+
+/**
+ * GET a forward indexed book
+ * Body : id_book
+ */
+ const fwd_book = async (req: Request, res: Response) => {
+    try {
+        const id_book = req.params.id
+
+        const data = await IFwdIndexModel.find({ id_book: id_book })
+
+        handleSuccess(req, res, data)
+    } catch (e) {
+        handleErrors(req, res, e.message)
+    }
+}
+
+
 /**
  * POST forward index a book
  * Body : filename, id_book
@@ -130,5 +148,6 @@ const findOneAndUpdateScore = async (id_book: string, word: string, count: numbe
 
 export const indexation = {
     fwd_index,
-    bwd_index
+    bwd_index,
+    fwd_book
 }
