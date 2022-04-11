@@ -6,6 +6,7 @@ import {handleErrors, handleSuccess} from "../utils/requests";
 import IBwdIndexModel, {IBookScore} from "../models/BwdIndex";
 import * as es from "event-stream";
 import fs from "fs";
+import IBookModel from "../models/Book";
 
 
 /**
@@ -241,8 +242,16 @@ const closeness = async (req: Request, res: Response) => {
             score: crank(id_to_num.get(row.id_book), weight_matrix)
         })
     }
-    cranks.sort((a, b) => b.score - a.score)
-    handleSuccess(req, res, cranks)
+    cranks.sort((a,b) => b.score - a.score)
+
+    const data = []
+    for(const crank of cranks) {
+        data.push({
+            ...(await IBookModel.findOne({id_book: crank.id})).toObject(),
+            score: crank.score
+        })
+    }
+    handleSuccess(req, res, data)
 }
 
 /**
