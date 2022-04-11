@@ -19,7 +19,7 @@ cat <<"EOF"
 
 EOF
 
-node axios.ts
+node axios.js
 line_counter=$(wc -l "test/data.csv" | awk '{ print $1 }')
 
 cat <<"EOF"
@@ -63,7 +63,7 @@ EOF
 sleep 3
 node remove_audiobooks.js
 
-(cd test && rm delete.txt)
+# (cd test && rm delete.txt)
 mv test/books/* ../data
 
 node fw.js
