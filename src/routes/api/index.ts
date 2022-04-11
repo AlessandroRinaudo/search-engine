@@ -5,5 +5,6 @@ const router: Router = Router();
 
 router.post("/forward", indexation.fwd_index)
 router.post("/backward", indexation.bwd_index)
+router.get("/closeness", indexation.closeness)
 
 export default router;

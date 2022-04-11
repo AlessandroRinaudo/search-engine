@@ -5,6 +5,7 @@ import {handleErrors, handleSuccess} from "../utils/requests";
 import IBwdIndexModel, {IBookScore} from "../models/BwdIndex";
 import * as es from "event-stream";
 import fs from "fs";
+import * as assert from "assert";
 
 /**
  * POST forward index a book
@@ -109,6 +110,112 @@ const bwd_index = async (req: Request, res: Response) => {
     }
 }
 
+/**
+ * Closeness centrality algorithm to sort books by importance order
+ * @param req
+ * @param res
+ */
+
+const closeness = async (req: Request, res: Response) => {
+
+    const adjacency_list = [
+        {id: 10, suggestedBooks: [20, 30, 40, 50]},
+        {id: 20, suggestedBooks: [10, 20]},
+        {id: 30, suggestedBooks: [10, 40]},
+        {id: 40, suggestedBooks: [10, 30]},
+        {id: 50, suggestedBooks: [10]},
+    ]
+
+    const id_to_num = new Map<number, number>();
+    const num_to_id = new Map<number, number>();
+    let vertex_len = 0;
+
+    for (const row of adjacency_list) {
+        id_to_num.set(row.id, vertex_len);
+        num_to_id.set(vertex_len, row.id);
+        vertex_len++;
+    }
+
+    // construct adjacency and weight matrix
+    const adjacency_matrix = new Array<Array<number>>(vertex_len);
+    const weight_matrix = new Array<Array<number>>(vertex_len)
+    for (let i = 0; i < vertex_len; i++) {
+        for (let j = 0; j < vertex_len; j++) {
+            if (!adjacency_matrix.at(i)) {
+                adjacency_matrix[i] = new Array<number>(vertex_len)
+            }
+            adjacency_matrix[i][j] = 0;
+
+            if (!weight_matrix.at(i)) {
+                weight_matrix[i] = new Array<number>(vertex_len)
+            }
+            if (i == j) {
+                weight_matrix[i][j] = 0
+            } else {
+                weight_matrix[i][j] = Number.MAX_SAFE_INTEGER
+            }
+        }
+    }
+
+
+    // Initialize weight
+    for (const row of adjacency_list) {
+        for (const col of row.suggestedBooks) {
+            const i = id_to_num.get(row.id)
+            const j = id_to_num.get(col);
+            if (i != j) {
+                weight_matrix[i][j] = 1
+            }
+        }
+    }
+
+    // Floyd-Warshall
+    for (let k = 0; k < vertex_len; k++) {
+        for (let i = 0; i < vertex_len; i++) {
+            for (let j = 0; j < vertex_len; j++) {
+                const cur_weight = weight_matrix.at(i).at(j)
+                const new_weight = weight_matrix.at(i).at(k) + weight_matrix.at(k).at(j)
+                if (cur_weight > new_weight) {
+                    weight_matrix[i][j] = new_weight
+                }
+            }
+        }
+    }
+
+    const cranks = []
+    for (const row of adjacency_list) {
+        cranks.push({
+            id: row.id,
+            score: crank(id_to_num.get(row.id), weight_matrix)
+        })
+    }
+
+    const data = cranks
+    handleSuccess(req, res, data)
+}
+
+/**
+ * Closeness centrality
+ * n-1 / Sum d(u,v) where u != v
+ * d(u,v) the shortest path from u to v, number of nodes minimum
+ * @param nodes
+ * @param di
+ */
+const crank = (node: number, weight_matrix: number[][]) => {
+    const v = weight_matrix.length
+    let sum = 0
+    for (let i = 0; i < v; i++) {
+        if (i != node) {
+            sum += weight_matrix[i][node]
+        }
+    }
+    if (sum === 0 || isNaN(sum)) {
+        return 0
+    }
+    return (v - 1) / sum
+
+}
+
 
 const findOneAndUpdateScore = async (id_book: string, word: string, count: number) => {
     // Find the corresponding word in backward index
@@ -133,5 +240,6 @@ const findOneAndUpdateScore = async (id_book: string, word: string, count: numbe
 
 export const indexation = {
     fwd_index,
-    bwd_index
+    bwd_index,
+    closeness
 }
