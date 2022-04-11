@@ -19,7 +19,7 @@ cat <<"EOF"
 
 EOF
 
-npx ts-node axios.ts
+node axios.ts
 line_counter=$(wc -l "test/data.csv" | awk '{ print $1 }')
 
 cat <<"EOF"
