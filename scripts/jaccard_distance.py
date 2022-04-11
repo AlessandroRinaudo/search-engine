@@ -2,6 +2,8 @@
 import itertools
 import os
 import requests
+import time
+start_time = time.time()
 
 dirs = os.listdir("../data/")
 url = 'http://localhost:3000/api/index/jaccard'
@@ -34,5 +36,6 @@ for f1, f2 in itertools.combinations(dirs, 2):
         failed_ids.append(filename_1)
         failed_ids.append(filename_2)
 
+print("--- %s seconds ---" % (time.time() - start_time))
 print(f"Total file: {total}")
 print("Success : " + str(success_cpt) + ", failed : " + str(fail_cpt) + " with: " + str(failed_ids))
