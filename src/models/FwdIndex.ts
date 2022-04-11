@@ -18,7 +18,8 @@ const fwdIndexSchema: Schema<IFwdIndexDocument> = new Schema({
     id_book: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        index: true
     },
     words:[{
         name: {

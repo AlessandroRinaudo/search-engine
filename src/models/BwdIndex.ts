@@ -17,7 +17,8 @@ const bwdIndexSchema: Schema<IBwdIndexDocument> = new Schema({
     word: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        index: true
     },
     id_books: [
         {
