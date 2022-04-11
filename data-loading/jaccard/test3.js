@@ -48,26 +48,33 @@ const jaccardAPI = async (val1, val2) => {
 
   }
 
-  // console.log(jaccardFunction(wordsRes1, wordsRes2));
   return jaccardFunction(wordsRes1, wordsRes2)
 
 
 }
 
 const res = (async () => {
+  let finalRes = []
+  let suggestions = []
   const iter = [3206, 61, 851, 37134, 25717, 67562]
-
-  // let initArr = [...iter]
-  // initArr.splice(2, 1)
-  // console.log(initArr);
 
   for (let i = 0; i < iter.length; i++) {
     let initArr = [...iter]
     initArr.splice(i, 1)
-    console.log(initArr);
-    // console.log(`i ${i} :`, initArr);
-    for (let j = 0; j < initArr.length; j++)
-      console.log(`distance entre ${iter[i]} et ${initArr[j]} : `,await jaccardAPI(iter[i], initArr[j]));
+    // console.log(initArr);
+    suggestions = []
+    for (let j = 0; j < initArr.length; j++) {
+      let jaccardDistance = await jaccardAPI(iter[i], initArr[j])
+      if (jaccardDistance <= 0.4)
+        suggestions.push(initArr[j])
+      // console.log(`distance entre ${iter[i]} et ${initArr[j]} : `, jaccardDistance);
     }
-  }) ()
+    finalRes.push({
+      id: iter[i],
+      suggestedBooks: suggestions
+    })
+  }
+  console.log(finalRes);
+
+})()
 
