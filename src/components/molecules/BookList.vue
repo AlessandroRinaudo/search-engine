@@ -2,12 +2,12 @@
   <div>
     <template v-if="books.length > 0">
       <div
-        class="grid grid-cols-1 my-6 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
+        class="grid grid-cols-1 my-6 gap-y-8 gap-x-6 sm:grid-cols-2 lg:grid-cols-4"
       >
         <div
           v-for="book in books"
           :key="book.title"
-          class="relative p-2 text-center rounded-lg shadow-lg group"
+          class="relative pb-1 text-center rounded-lg shadow-lg group"
         >
           <Cover :book="book" />
         </div>

@@ -1,12 +1,14 @@
 import { createStore } from "vuex";
-import { getLanguages, getBooksPerLanguage, getLocalBooks, getBooks, getBook, searchBooks } from "../service/books";
+import { getLanguages, getBooksPerLanguage, getLocalBooks, getBooks, getBook, getSuggestedBooks, getImportantBooks, searchBooks } from "../service/books";
 
 const store = createStore({
   state: {
     languages: [],
     localBooks: [],
     books: [],
+    importantBooks: [],
     book: {},
+    suggestedBooks: [],
     limit: 40,
   },
   mutations: {
@@ -21,7 +23,13 @@ const store = createStore({
     },
     storeBook: (state, book) => {
       state.book = book;
-    }
+    },
+    storeSuggestedBooks: (state, suggestedBooks) => {
+      state.suggestedBooks = suggestedBooks;
+    },
+    storeImportantBooks: (state, importantBooks) => {
+      state.importantBooks = importantBooks;
+    },
   },
   actions: {
     fetchLanguages: async (store) => {
@@ -38,6 +46,18 @@ const store = createStore({
     fetchBook: async (store, id) => {
       store.commit("storeBook", await getBook(id));
     },
+    fetchSuggestedBooks: async (store) => {
+      let similarBooksId = await getSuggestedBooks(8)
+      let similarBooks = []
+      for (let i = 0; i < similarBooksId.length; i++) {
+        let book = await getBook(similarBooksId[i])
+        similarBooks.push(book.results)
+      }
+      store.commit("storeSuggestedBooks", similarBooks);
+    },
+    fetchImportantBooks: async (store) => {
+      store.commit("storeImportantBooks", await getImportantBooks());
+    },
     fetchSearch: async (store, page, limit, word) => {
       store.commit("storeBooks", await searchBooks(page, limit, word));
     },
@@ -49,6 +69,12 @@ const store = createStore({
     },
     book: (state) => {
       return state.book;
+    },
+    suggestedBooks: (state) => {
+      return state.suggestedBooks;
+    },
+    importantBooks: (state) => {
+      return state.importantBooks;
     },
     booksCount(state, getters) {
       return getters.books.results.length

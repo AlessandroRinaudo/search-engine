@@ -19,15 +19,83 @@
             <h1 class="text-2xl font-extrabold tracking-tight text-gray-900">
               {{ book.results.title }}
             </h1>
-            <h3 class="mt-4 sm:mt-10 text-sm font-medium text-gray-900">
-              Gutenberg link
-            </h3>
-            <a
-              :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}`"
-              class="mt-4 text-gray-600 text-sm"
-            >
-              {{ `https://www.gutenberg.org/ebooks/${book.results.id_book}` }}
-            </a>
+            <div class="mt-6">
+              <h2 class="text-sm font-medium text-gray-900">Download</h2>
+              <div class="mt-6">
+                <div class="-my-2 overflow-x-auto">
+                  <div class="inline-block min-w-full py-2 align-middle px-2">
+                    <div
+                      class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
+                    >
+                      <table class="min-w-full divide-y divide-gray-300">
+                        <thead class="bg-gray-50">
+                          <tr class="divide-x divide-gray-200">
+                            <th
+                              scope="col"
+                              class="py-4 px-6 text-left text-xs font-normal text-gray-900"
+                            >
+                              Ebook Format
+                            </th>
+                            <th
+                              scope="col"
+                              class="py-4 px-6 text-left text-xs font-normal text-gray-900"
+                            >
+                              Text Format
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                          <tr class="divide-x divide-gray-200">
+                            <td
+                              class="whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900"
+                            >
+                              <a
+                                :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.epub.images`"
+                                class="text-indigo-600 hover:text-indigo-900 truncate"
+                              >
+                                epub+zip
+                              </a>
+                            </td>
+                            <td
+                              class="whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900"
+                            >
+                              <a
+                                :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.html.images`"
+                                class="text-indigo-600 hover:text-indigo-900 truncate"
+                              >
+                                text/html
+                              </a>
+                            </td>
+                          </tr>
+                          <tr class="divide-x divide-gray-200">
+                            <td
+                              class="whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900"
+                            >
+                              <a
+                                :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.kindle.images`"
+                                class="text-indigo-600 hover:text-indigo-900 truncate"
+                              >
+                                x-mobipocket-ebook
+                              </a>
+                            </td>
+                            <td
+                              class="whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900"
+                            >
+                              <a
+                                :href="`https://www.gutenberg.org/file/${book.results.id_book}/${book.results.id_book}-0.zip`"
+                                class="text-indigo-600 hover:text-indigo-900 truncate"
+                              >
+                                text/plain
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -36,14 +104,14 @@
         <h2 class="sr-only">Book information</h2>
         <div class="mt-6">
           <h3 class="text-sm font-medium text-gray-900">Total download</h3>
-          <div class="mt-4 text-gray-600 text-sm">
+          <div class="mt-3 text-gray-600 text-sm">
             {{ book.results.download_count }}
           </div>
         </div>
 
         <div class="mt-6">
           <h3 class="text-sm font-medium text-gray-900">Author</h3>
-          <div class="mt-4">
+          <div class="mt-3">
             <ul
               v-for="(author, i) in book.results.authors"
               :key="`author-${i}`"
@@ -53,7 +121,10 @@
               <li class="text-gray-400">
                 <span class="text-gray-600">{{ author.name }}</span>
                 <p class="text-gray-600">
-                  {{ author.birth_year }} - {{ author.death_year || "-" }}
+                  {{ author.birth_year }}
+                </p>
+                <p v-if="author.death_year" class="text-gray-600">
+                  {{ "- " + author.death_year }}
                 </p>
               </li>
             </ul>
@@ -62,7 +133,7 @@
 
         <div class="mt-6">
           <h3 class="text-sm font-medium text-gray-900">Subjects</h3>
-          <div class="mt-4">
+          <div class="mt-3">
             <ul
               v-for="(subject, i) in book.results.subjects"
               :key="`subject-${i}`"
@@ -78,7 +149,7 @@
 
         <div class="mt-6">
           <h3 class="text-sm font-medium text-gray-900">Bookshelves</h3>
-          <div class="mt-4">
+          <div class="mt-3">
             <ul
               v-for="(bookshelve, i) in book.results.bookshelves"
               :key="`bookshelve-${i}`"
@@ -94,7 +165,7 @@
 
         <div class="mt-6">
           <h3 class="text-sm font-medium text-gray-900">Languages</h3>
-          <div class="mt-4">
+          <div class="mt-3">
             <ul
               v-for="(language, i) in book.results.languages"
               :key="`language-${i}`"
@@ -107,136 +178,23 @@
             </ul>
           </div>
         </div>
+        <div class="mt-6">
+          <h3 class="text-sm font-medium text-gray-900 mb-2">Gutenberg link</h3>
+          <a
+            :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}`"
+            class="mt-3 text-indigo-600 text-sm"
+          >
+            {{ `https://www.gutenberg.org/ebooks/${book.results.id_book}` }}
+          </a>
+        </div>
       </div>
 
       <div class="lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200">
-        <div class="mt-6">
-          <h2 class="text-sm font-medium text-gray-900">Download</h2>
-          <div class="pr-6">
-            <div class="mt-6 flex flex-col">
-              <div class="-my-2 overflow-x-auto">
-                <div class="inline-block min-w-full py-2 align-middle px-2">
-                  <div
-                    class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
-                  >
-                    <table class="min-w-full divide-y divide-gray-300">
-                      <thead class="bg-gray-50">
-                        <tr>
-                          <th
-                            scope="col"
-                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                          >
-                            Format
-                          </th>
-                          <th
-                            scope="col"
-                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                          >
-                            Link
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody class="divide-y divide-gray-200 bg-white">
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                          >
-                            epub+zip
-                          </td>
-                          <td
-                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 hover:cursor-pointer"
-                          >
-                            <a
-                              :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.epub.images`"
-                              class="text-indigo-600 hover:text-indigo-900 truncate"
-                            >
-                              {{
-                                `https://www.gutenberg.org/ebooks/${book.results.id_book}.epub.images`
-                              }}
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                          >
-                            rdf+xml
-                          </td>
-                          <td
-                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 hover:cursor-pointer"
-                          >
-                            <a
-                              :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.rdf`"
-                              class="text-indigo-600 hover:text-indigo-900 truncate"
-                            >
-                              {{
-                                `https://www.gutenberg.org/ebooks/${book.results.id_book}.rdf`
-                              }}
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                          >
-                            x-mobipocket-ebook
-                          </td>
-                          <td
-                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 hover:cursor-pointer"
-                          >
-                            <a
-                              :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.kindle.images`"
-                              class="text-indigo-600 hover:text-indigo-900 truncate"
-                            >
-                              {{
-                                `https://www.gutenberg.org/ebooks/${book.results.id_book}.kindle.images`
-                              }}
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                          >
-                            text/html
-                          </td>
-                          <td
-                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 hover:cursor-pointer"
-                          >
-                            <a
-                              :href="`https://www.gutenberg.org/ebooks/${book.results.id_book}.html.images`"
-                              class="text-indigo-600 hover:text-indigo-900 truncate"
-                            >
-                              {{
-                                `https://www.gutenberg.org/ebooks/${book.results.id_book}.html.images`
-                              }}
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                          >
-                            text/plain
-                          </td>
-                          <td
-                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 hover:cursor-pointer"
-                          >
-                            <a
-                              :href="`https://www.gutenberg.org/file/${book.results.id_book}/${book.results.id_book}-0.zip`"
-                              class="text-indigo-600 hover:text-indigo-900 truncate"
-                            >
-                              {{
-                                `https://www.gutenberg.org/file/${book.results.id_book}/${book.results.id_book}-0.zip`
-                              }}
-                            </a>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+        <div class="mt-8 pt-6 border-t border-gray-200">
+          <h2 class="text-sm font-medium text-gray-900">Suggested Book</h2>
+          <div class="mt-4">
+            <div v-if="suggestedBooks">
+              <BookList :books="suggestedBooks" />
             </div>
           </div>
         </div>
@@ -245,7 +203,11 @@
   </div>
 </template>
 <script>
+import BookList from "./BookList.vue";
 export default {
+  components: {
+    BookList
+  },
   props: {
     book: {
       type: Object,
@@ -298,6 +260,23 @@ export default {
           download_count: 65549
         }
       })
+    }
+  },
+  computed: {
+    suggestedBooks() {
+      return this.$store.getters.suggestedBooks;
+    }
+  },
+  mounted() {
+    this.fetchSuggestedBooks();
+  },
+  methods: {
+    async fetchSuggestedBooks() {
+      try {
+        await this.$store.dispatch("fetchSuggestedBooks");
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

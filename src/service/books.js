@@ -19,6 +19,24 @@ const getBook = async (id) => {
     });
 }
 
+const getSuggestedBooks = async (limit) => {
+  return [74, 1184, 3600, 161, 140, 20228, 1254, 100]
+
+  // return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/book/?sort=download_count&dir=desc&limit=${limit}`)
+  //   .then((response) => response.json())
+  //   .catch(error => {
+  //     console.log("ERROR getSuggestedBooks: ", error);
+  //   });
+}
+
+const getImportantBooks = async () => {
+  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/index/closeness`)
+    .then((response) => response.json())
+    .catch(error => {
+      console.log("ERROR getImportantBooks: ", error);
+    });
+}
+
 const searchBooks = async ({ page, limit, word }) => {
   if (limit) {
     return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/search?q=${word}&limit=${limit}&page=${page}`)
@@ -40,4 +58,4 @@ const getBooksPerLanguage = async (language) => data[language];
 
 const getLanguages = async () => Object.keys(data);
 
-export { getBook, getBooks, searchBooks, getLocalBooks, getBooksPerLanguage, getLanguages };
+export { getBook, getBooks, getSuggestedBooks, getImportantBooks, searchBooks, getLocalBooks, getBooksPerLanguage, getLanguages };
