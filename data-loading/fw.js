@@ -65,9 +65,11 @@ const forward_indexing = (idFile, nameFile) => {
       // console.log(error.response.status);
       // console.log(error.response.headers);
     } else if (error.request) {
-      console.log(error.request);
+      // console.log(error.request);
+      failCounter++
     } else {
-      console.log('Error', error.message);
+      // console.log('Error', error.message);
+      failCounter++
     }
 
     // console.log(failCounter);
