@@ -66,6 +66,7 @@ node remove_audiobooks.js
 # (cd test && rm delete.txt)
 mv test/books/* ../data
 
-node fw.js
+# node fw.js
+(cd ../scripts && python3 insert_data.py)
 sleep 10
 node dataToDb2.js

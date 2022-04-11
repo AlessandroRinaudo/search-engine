@@ -32,11 +32,11 @@ fs.readFile(fileNameDelete, function (err, data) {
         bookshelves: source[i]["bookshelves"]
       };
       // arrayToInsert.push(oneRow);
-      
+
       let language = ''
       if (oneRow.languages.length > 1) {
         for (let i = 0; i < oneRow.languages.length; i++) {
-          language += oneRow.languages[i] += ';'
+          language += oneRow.languages[i] += ''
         }
       }
       else language = oneRow.languages[0]
@@ -63,19 +63,21 @@ fs.readFile(fileNameDelete, function (err, data) {
       }
       else bookshelv = "Aucune"
 
+      console.log("language ", language);
       bookshelv = bookshelv.replaceAll(',', ';')
       arrayToInsert.push({
-        id:  oneRow.id,
-        title:  oneRow.title,
-        authorName:  oneRow.authorName,
+        id: oneRow.id,
+        title: oneRow.title,
+        authorName: oneRow.authorName,
         authorLastName: oneRow.authorLastName,
-        languages:  language,
+        languages: language,
         download_count: oneRow.download_count,
         copyright: oneRow.copyright,
         subject: subject,
         bookshelv: bookshelv
-        
+
       });
+      console.log("language ", arrayToInsert[0].language);
     }
 
     console.log(arrayToInsert.length);
@@ -95,7 +97,7 @@ fs.readFile(fileNameDelete, function (err, data) {
 
     console.log(arrayToInsert.length);
     for (let i in arrayToInsert) {
-      result += `${arrayToInsert[i].id},${arrayToInsert[i].title},${arrayToInsert[i].authorName},${arrayToInsert[i].authorLastName},${arrayToInsert[i].language},${arrayToInsert[i].download_count},${arrayToInsert[i].copyright},${arrayToInsert[i].subject},${arrayToInsert[i].bookshelv},\n`
+      result += `${arrayToInsert[i].id},${arrayToInsert[i].title},${arrayToInsert[i].authorName},${arrayToInsert[i].authorLastName},en,${arrayToInsert[i].download_count},${arrayToInsert[i].copyright},${arrayToInsert[i].subject},${arrayToInsert[i].bookshelv},\n`
     }
     fs.writeFile(fileName, result, err => {
       if (err) {
