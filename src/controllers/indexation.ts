@@ -1,18 +1,21 @@
-import {Request, Response} from "express";
-import {tokenization} from "../utils/tokenize";
-import IFwdIndexModel, {IFwdIndex, IWord} from "../models/FwdIndex";
-import {handleErrors, handleSuccess} from "../utils/requests";
-import IBwdIndexModel, {IBookScore} from "../models/BwdIndex";
+import { Request, Response } from "express";
+import { tokenization } from "../utils/tokenize";
+import IFwdIndexModel, { IFwdIndex, IWord } from "../models/FwdIndex";
+import SuggestedBooksModel, { SuggestedBooks } from "../models/Suggested";
+import { handleErrors, handleSuccess } from "../utils/requests";
+import IBwdIndexModel, { IBookScore } from "../models/BwdIndex";
 import * as es from "event-stream";
 import fs from "fs";
+
+
 
 
 /**
  * GET a forward indexed book
  */
-const fwd_books = async (req: Request, res: Response) => {
+ const fwd_books = async (req: Request, res: Response) => {
     try {
-
+   
         const data = await IFwdIndexModel.find().select('id_book')
 
         handleSuccess(req, res, data)
@@ -22,15 +25,33 @@ const fwd_books = async (req: Request, res: Response) => {
 }
 
 
+
 /**
  * GET a forward indexed book
  * Body : id_book
  */
-const fwd_book = async (req: Request, res: Response) => {
+ const fwd_book = async (req: Request, res: Response) => {
     try {
         const id_book = req.params.id
 
-        const data = await IFwdIndexModel.find({id_book: id_book})
+        const data = await IFwdIndexModel.find({ id_book: id_book })
+
+        handleSuccess(req, res, data)
+    } catch (e) {
+        handleErrors(req, res, e.message)
+    }
+}
+
+/**
+ * POST a suggested books
+ * Body : id_book, suggested_books
+ */
+const suggested_books = async (req: Request, res: Response) => {
+    try {
+        const id_book = req.body.id_book
+        const suggested_books = req.body.suggested_books
+
+        const data = await SuggestedBooksModel.create({ id_book: id_book, suggested_books: suggested_books })
 
         handleSuccess(req, res, data)
     } catch (e) {
@@ -206,5 +227,6 @@ export const indexation = {
     bwd_index,
     fwd_book,
     fwd_books,
-    jaccard
+    jaccard,
+    suggested_books
 }
