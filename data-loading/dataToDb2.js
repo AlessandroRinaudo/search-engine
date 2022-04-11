@@ -19,7 +19,8 @@ csvtojson().fromFile(fileName).then(source => {
       languages: source[i]["languages"],
       download_count: source[i]["download_count"],
       copyright: source[i]["copyright"],
-      subjects: source[i]["subjects"]
+      subjects: source[i]["subjects"],
+      bookshelves: source[i]["bookshelves"]
     };
 
     const fileName = `${oneRow.id}.txt`
@@ -30,6 +31,7 @@ csvtojson().fromFile(fileName).then(source => {
     // })
 
     let subject = oneRow.subjects.split(';')
+    let bookshelv = oneRow.bookshelves.split(';')
 
     axios.post('http://localhost:3000/api/book/insert', {
       id: oneRow.id,
@@ -37,7 +39,7 @@ csvtojson().fromFile(fileName).then(source => {
       authors: { name: oneRow.authorName + " " + oneRow.authorLastName, birth_year: "1997" },
       translators: [],
       subjects: subject,
-      bookshelves: "lol",
+      bookshelves: bookshelv,
       languages: oneRow.languages,
       copyright: oneRow.copyright,
       mediatype: "",

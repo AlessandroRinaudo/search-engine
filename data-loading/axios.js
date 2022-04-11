@@ -3,7 +3,7 @@ const axios = require('axios');
 const fs = require('fs');
 
 const pwd = __dirname
-let result = "id,title,authorName,authorLastName,languages,download_count,copyright,subjects\n"
+let result = "id,title,authorName,authorLastName,languages,download_count,copyright,subjects,bookshelves\n"
 
 const url = "mongodb://localhost:27017/";
 for (let i = 1; i < 20; i++) {
@@ -50,7 +50,17 @@ for (let i = 1; i < 20; i++) {
 
             subject = subject.replaceAll(',', ';')
 
-            result += `${id},${title},${authorName},${authorLastName},${language},${download_count},${copyright},${subject},\n`
+            let bookshelv = ''
+            if (bookshelves.length > 1) {
+              for (let i = 0; i < bookshelves.length; i++) {
+                bookshelv += bookshelves[i] += ' '
+              }
+            }
+            else bookshelv = "Aucune"
+
+            bookshelv = bookshelv.replaceAll(',', ';')
+
+            result += `${id},${title},${authorName},${authorLastName},${language},${download_count},${copyright},${subject},${bookshelv},\n`
             fs.writeFile(`${pwd}/test/data.csv`, result, err => {
               if (err) {
                 console.error(err)
