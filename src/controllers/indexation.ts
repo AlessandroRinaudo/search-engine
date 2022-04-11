@@ -59,6 +59,22 @@ const suggested_books = async (req: Request, res: Response) => {
 
 
 /**
+ * Get suggested books for a book
+ * Param : id_book
+ */
+const suggested_book = async (req: Request, res: Response) => {
+    try {
+        const id_book = req.params.id
+        const data = await SuggestedBooksModel.findOne({id_book: id_book})
+        handleSuccess(req, res, data)
+    } catch (e) {
+        handleErrors(req, res, e.message)
+    }
+}
+
+
+
+/**
  * POST forward index a book
  * Body : filename, id_book
  */
@@ -348,5 +364,6 @@ export const indexation = {
     fwd_books,
     jaccard,
     suggested_books,
+    suggested_book,
     closeness
 }
