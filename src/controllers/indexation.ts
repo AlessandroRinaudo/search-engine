@@ -7,6 +7,24 @@ import * as es from "event-stream";
 import fs from "fs";
 
 
+
+
+/**
+ * GET a forward indexed book
+ */
+ const fwd_books = async (req: Request, res: Response) => {
+    try {
+   
+        const data = await IFwdIndexModel.find().select('id_book')
+
+        handleSuccess(req, res, data)
+    } catch (e) {
+        handleErrors(req, res, e.message)
+    }
+}
+
+
+
 /**
  * GET a forward indexed book
  * Body : id_book
@@ -152,5 +170,6 @@ const findOneAndUpdateScore = async (id_book: string, word: string, count: numbe
 export const indexation = {
     fwd_index,
     bwd_index,
-    fwd_book
+    fwd_book,
+    fwd_books
 }
