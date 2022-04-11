@@ -47,7 +47,9 @@ const store = createStore({
       store.commit("storeBook", await getBook(id));
     },
     fetchSuggestedBooks: async (store) => {
-      let similarBooksId = await getSuggestedBooks(8)
+      let id = 5658;
+      let books_id = await getSuggestedBooks(id)
+      let similarBooksId = books_id.results.suggested_books
       let similarBooks = []
       for (let i = 0; i < similarBooksId.length; i++) {
         let book = await getBook(similarBooksId[i])

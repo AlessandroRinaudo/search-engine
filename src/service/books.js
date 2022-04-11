@@ -19,14 +19,14 @@ const getBook = async (id) => {
     });
 }
 
-const getSuggestedBooks = async (limit) => {
-  return [74, 1184, 3600, 161, 140, 20228, 1254, 100]
+const getSuggestedBooks = async (id) => {
+  // return [74, 1184, 3600, 161, 140, 20228, 1254, 100]
 
-  // return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/book/?sort=download_count&dir=desc&limit=${limit}`)
-  //   .then((response) => response.json())
-  //   .catch(error => {
-  //     console.log("ERROR getSuggestedBooks: ", error);
-  //   });
+  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/index/suggested/${id}`)
+    .then((response) => response.json())
+    .catch(error => {
+      console.log("ERROR getSuggestedBooks: ", error);
+    });
 }
 
 const getImportantBooks = async () => {
