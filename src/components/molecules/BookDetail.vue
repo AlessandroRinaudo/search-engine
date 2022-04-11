@@ -193,8 +193,8 @@
         <div class="mt-8 pt-6 border-t border-gray-200">
           <h2 class="text-sm font-medium text-gray-900">Suggested Book</h2>
           <div class="mt-4">
-            <div v-if="suggestedBooks">
-              <BookList :books="suggestedBooks" />
+            <div v-if="suggested">
+              <BookList :books="suggested" />
             </div>
           </div>
         </div>
@@ -260,23 +260,29 @@ export default {
           download_count: 65549
         }
       })
-    }
-  },
-  computed: {
-    suggestedBooks() {
-      return this.$store.getters.suggestedBooks;
-    }
-  },
-  mounted() {
-    this.fetchSuggestedBooks();
-  },
-  methods: {
-    async fetchSuggestedBooks() {
-      try {
-        await this.$store.dispatch("fetchSuggestedBooks");
-      } catch (error) {
-        console.log(error);
-      }
+    },
+    suggested: {
+      type: Object,
+      required: true,
+      default: () => ({
+        subjects: [],
+        bookshelves: [],
+        languages: ["undefined"],
+        _id: "625499464148c1595e895b59",
+        title: "Lord Jim",
+        authors: [
+          {
+            _id: "625499464148c1595e895b5a",
+            name: "Joseph Conrad",
+            birth_year: 1997
+          }
+        ],
+        translators: [],
+        mediatype: "",
+        download_count: 924,
+        id_book: "5658",
+        __v: 0
+      })
     }
   }
 };

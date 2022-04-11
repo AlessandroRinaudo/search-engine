@@ -20,8 +20,6 @@ const getBook = async (id) => {
 }
 
 const getSuggestedBooks = async (id) => {
-  // return [74, 1184, 3600, 161, 140, 20228, 1254, 100]
-
   return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/index/suggested/${id}`)
     .then((response) => response.json())
     .catch(error => {
