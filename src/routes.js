@@ -10,15 +10,15 @@ import NotFound from "./views/NotFound.vue";
 
 /** @type {import('vue-router').RouterOptions['routes']} */
 export let routes = [
-  { path: "/", component: Home, meta: { title: "Gutenberg" } },
-  { path: "/books/:id", component: Book, meta: { title: "Book" } },
-  { path: "/popular", component: Popular, meta: { title: "Popular" } },
-  { path: "/languages", component: Languages, meta: { title: "Languages" } },
-  { path: "/languages/:lang", component: Books, meta: { title: "Books" } },
-  { path: "/random", component: Random, meta: { title: "Random" } },
-  { path: "/about", component: About, meta: { title: "About us" } },
+  { path: "/", name: 'Home', component: Home, meta: { title: "Gutenberg" } },
+  { path: "/books/:id", name: 'Book', component: Book, meta: { title: "Book" } },
+  { path: "/popular", name: 'Popular', component: Popular, meta: { title: "Popular" } },
+  { path: "/languages", name: 'Languages', component: Languages, meta: { title: "Languages" } },
+  { path: "/languages/:lang", name: 'Books', component: Books, meta: { title: "Books" } },
+  { path: "/random", name: 'Random', component: Random, meta: { title: "Random" } },
+  { path: "/about", name: 'About', component: About, meta: { title: "About us" } },
   {
-    path: "/search", component: Search, props: route => ({ query: route.query.q, page: route.query.page }), meta: { title: "Find your book" }
+    path: "/search", name: 'Search', component: Search, props: route => ({ query: route.query.q, page: route.query.page, limit: route.query.limit }), meta: { title: "Find your book" }
   },
   { path: "/:path(.*)", component: NotFound }
 ];

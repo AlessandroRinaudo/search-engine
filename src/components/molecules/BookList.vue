@@ -40,8 +40,6 @@ export default {
       required: true,
       default: () => ({
         count: 67511,
-        next: "https://gutendex.com/books/?page=2",
-        previous: null,
         results: []
       })
     }

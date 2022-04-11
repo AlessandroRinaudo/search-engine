@@ -4,8 +4,7 @@ const getLocalBooks = async () =>
   Object.values(data).reduce((acc, val) => acc.concat(val), []);
 
 const getBooks = async (limit) => {
-  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/book/?sort=-download_count&limit=${limit
-    }`)
+  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/book/?sort=download_count&dir=desc&limit=${limit}`)
     .then((response) => response.json())
     .catch(error => {
       console.log("ERROR getBooks: ", error);
@@ -21,12 +20,21 @@ const getBook = async (id) => {
 }
 
 const searchBooks = async ({ page, limit, word }) => {
-  return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/search?q=${word}&limit=${limit
-    }&page=${page}`)
-    .then((response) => response.json())
-    .catch(error => {
-      console.log("ERROR searchBooks: ", error);
-    });
+  if (limit) {
+    return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/search?q=${word}&limit=${limit}&page=${page}`)
+      .then((response) => response.json())
+      .catch(error => {
+        console.log("ERROR searchBooks: ", error);
+      });
+  }
+  else {
+    return await fetch(`${import.meta.env.VITE_GUTENDEX_URL}/search?q=${word}&limit=40&page=${page}`)
+      .then((response) => response.json())
+      .catch(error => {
+        console.log("ERROR searchBooks: ", error);
+      });
+  }
+
 }
 const getBooksPerLanguage = async (language) => data[language];
 

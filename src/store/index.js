@@ -7,7 +7,7 @@ const store = createStore({
     localBooks: [],
     books: [],
     book: {},
-    limit: 10,
+    limit: 40,
   },
   mutations: {
     storeLanguages: (state, languages) => {
@@ -33,13 +33,13 @@ const store = createStore({
       else store.commit("storeLocalBooks", await getLocalBooks());
     },
     fetchBooks: async (store) => {
-      store.commit("storeBooks", await getBooks(100));
+      store.commit("storeBooks", await getBooks(80));
     },
     fetchBook: async (store, id) => {
       store.commit("storeBook", await getBook(id));
     },
-    fetchSearch: async (store, page, item) => {
-      store.commit("storeBooks", await searchBooks(page, store.state.limit, item));
+    fetchSearch: async (store, page, limit, word) => {
+      store.commit("storeBooks", await searchBooks(page, limit, word));
     },
   },
   modules: {},
@@ -55,8 +55,7 @@ const store = createStore({
     },
     booksAvailable(state, getters) {
       return getters.books.results.reduce(
-        (acc, { id_book }) => [...acc, id_book
-        ],
+        (acc, { id_book }) => [...acc, id_book],
         []);
     },
   }

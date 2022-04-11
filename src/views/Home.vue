@@ -42,16 +42,19 @@
                     name="book"
                     placeholder="Tape something..."
                     class="block w-full px-4 py-3 rounded-md border border-gray-300 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700"
-                    @keyup.enter="submit()"
                   />
+                  <!-- @keyup.enter="submit()" -->
                 </div>
                 <div class="mt-3 sm:mt-0 sm:ml-3">
-                  <a
+                  <router-link
                     class="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700"
-                    :href="`/search?q=${searchText}&page=1`"
+                    :to="{
+                      name: 'Search',
+                      query: { q: searchText, page: 1, limit: limit }
+                    }"
                   >
                     Search
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -107,10 +110,18 @@ export default {
   data: () => ({
     searchText: ""
   }),
-  methods: {
-    submit() {
-      return (window.location.href = `/search?q=${this.searchText}&page=1`);
+  computed: {
+    limit() {
+      return this.$store.state.limit;
     }
+  },
+  methods: {
+    // submit() {
+    //   return this.$router.push({
+    //     name: "Search",
+    //     params: { q: this.searchText, page: 1, limit: this.limit }
+    //   });
+    // }
   }
 };
 </script>

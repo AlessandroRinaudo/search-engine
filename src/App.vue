@@ -49,19 +49,17 @@
                     name="book"
                     placeholder="Search something..."
                     class="block w-full pl-3 pr-3 py-2 border border-transparent rounded-md leading-5 bg-indigo-400 bg-opacity-25 text-indigo-100 placeholder-indigo-200 focus:outline-none focus:bg-white focus:ring-0 focus:placeholder-gray-400 focus:text-gray-900 sm:text-sm"
-                    @keyup.enter="submit()"
                   />
+                  <!-- @keyup.enter="submit()" -->
                 </div>
               </div>
             </div>
-            <a
+            <router-link
               class="px-3 py-2 text-sm font-medium rounded-md cursor-pointer"
-              :class="[
-                isExactActive
-                  ? 'text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700'
-              ]"
-              :href="`/search?q=${searchText}&page=1`"
+              :to="{
+                name: 'Search',
+                query: { q: searchText, page: 1, limit: limit }
+              }"
             >
               <svg
                 class="h-5 w-5 text-white"
@@ -76,7 +74,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </router-link>
           </div>
         </div>
       </div>
@@ -119,10 +117,18 @@ export default defineComponent({
     ],
     searchText: ""
   }),
-  methods: {
-    submit() {
-      return (window.location.href = `/search?q=${this.searchText}&page=1`);
+  computed: {
+    limit() {
+      return this.$store.state.limit;
     }
+  },
+  methods: {
+    // submit() {
+    //   return this.$router.push({
+    //     name: "Search",
+    //     params: { q: this.searchText, page: 1, limit: this.limit }
+    //   });
+    // }
   }
 });
 </script>

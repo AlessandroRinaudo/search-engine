@@ -9,8 +9,8 @@
         Showing
         <span class="font-medium">
           {{
-            books.results.length > 31
-              ? Number(page) * books.results.length - 31
+            books.results.length > limit
+              ? Number(page) * books.results.length - limit
               : books.results.length
           }}
         </span>
@@ -25,14 +25,12 @@
     </div>
     <div class="flex-1 flex justify-between sm:justify-end">
       <a
-        v-if="books.previous"
         :href="`/${pageName}&page=${Number(page) - 1}`"
         class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
       >
         Previous
       </a>
       <a
-        v-if="books.next"
         :href="`/${pageName}&page=${Number(page) + 1}`"
         class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
       >
@@ -55,6 +53,18 @@ export default {
     pageName: {
       type: String,
       default: "popular"
+    }
+  },
+  mounted() {
+    this.fetchBooks();
+  },
+  methods: {
+    async fetchBooks() {
+      try {
+        await this.$store.dispatch("fetchBooks", this.page);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

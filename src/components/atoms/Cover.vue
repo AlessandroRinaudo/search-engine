@@ -23,7 +23,10 @@
         <li class="text-gray-400">
           <span class="text-sm italic text-gray-700">{{ author.name }}</span>
           <p class="text-sm italic text-gray-700">
-            {{ author.birth_year }} - {{ author.death_year || "-" }}
+            {{ author.birth_year }}
+          </p>
+          <p v-if="author.death_year" class="text-gray-600">
+            {{ "- " + author.death_year }}
           </p>
         </li>
       </ul>
