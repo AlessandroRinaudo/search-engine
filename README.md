@@ -22,6 +22,7 @@ yarn build
 ## Demo
 
 ![](doc/demo.gif)
+
 A complete video demo is available at : [video](doc/demo.mov)
 
 ## Screenshot
