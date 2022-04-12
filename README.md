@@ -1,30 +1,4 @@
-# Vite + Tailwind CSS Starter
-
-> A [Tailwind CSS](http://tailwindcss.com/) starter template for [Vite](https://github.com/vitejs/vite)
-
-## Tailwind UI Users
-
-If you have access to [Tailwind UI](https://tailwindui.com), follow these steps to add it:
-
-1. Install first-party plugins:
-
-```sh
-yarn add @tailwindcss/forms @tailwindcss/typography @tailwindcss/aspect-ratio
-```
-
-2. Add the plugins to `tailwind.config.js`:
-
-```js
-// tailwind.config.js
-module.exports = {
-  // ...
-  plugins: [
-    require("@tailwindcss/forms"),
-    require("@tailwindcss/typography"),
-    require("@tailwindcss/aspect-ratio")
-  ]
-};
-```
+# Front Search Engine
 
 ## Installation
 
@@ -35,6 +9,7 @@ yarn
 ## Development
 
 ```sh
+cp .env.example .env
 yarn dev
 ```
 
@@ -43,3 +18,19 @@ yarn dev
 ```sh
 yarn build
 ```
+
+## Demo
+
+![](doc/demo.gif)
+A complete video demo is available at : [video](doc/demo.mov)
+
+## Screenshot
+
+Home page :
+![image](doc/home.png)
+Search page :
+![image](doc/search.png)
+Detail and similar book page :
+![image](doc/detail_similar.png)
+Popular page :
+![image](doc/popular.png)
