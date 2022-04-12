@@ -30,8 +30,8 @@ csvtojson().fromFile(fileName).then(source => {
     //   file: fileName
     // })
 
-    let subject = oneRow.subjects.split(';')
-    let bookshelv = oneRow.bookshelves.split(';')
+    let subject = oneRow.subjects?.split(';')
+    let bookshelv = oneRow.bookshelves?.split(';')
 
     axios.post('http://localhost:3000/api/book/insert', {
       id: oneRow.id,
