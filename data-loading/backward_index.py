@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import os
 import requests
+import time
+startTime = time.time()
 
 dirs = os.listdir("../data/")
 url = 'http://localhost:3000/api/index/backward'
@@ -27,5 +29,7 @@ for file in dirs:
         fail_cpt += 1
         failed_ids.append(filename)
 
+executionTime = (time.time() - startTime)
+print('Execution time in seconds: ' + str(executionTime))
 print(f"Total file: {total}")
 print("Success : " + str(success_cpt) + ", failed : " + str(fail_cpt) + " with: " + str(failed_ids))

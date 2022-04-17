@@ -1,11 +1,12 @@
 // axios
-import axios, { AxiosError } from 'axios'
-import fs from 'fs'
+const axios = require('axios');
+const fs = require('fs');
+
 const pwd = __dirname
-let result = "id,title,authorName,authorLastName,languages,download_count,\n"
+let result = "id,title,authorName,authorLastName,languages,download_count,copyright,subjects,bookshelves\n"
 
 const url = "mongodb://localhost:27017/";
-for (let i = 1; i < 20; i++) {
+for (let i = 1; i < 200; i++) {
   setTimeout(async () => {
     try {
       await axios.get(`http://gutendex.com/books/?page=${i}`)
@@ -35,11 +36,31 @@ for (let i = 1; i < 20; i++) {
             }
             else language = languages[0]
 
-            title= title.replaceAll(',', ';')
+            title = title.replaceAll(',', ';')
             authorName.replaceAll(',', ' ')
             authorLastName.replaceAll(',', ' ')
 
-            result += `${id},${title},${authorName},${authorLastName},${language},${download_count},\n`
+            let subject = ''
+            if (subjects.length > 1) {
+              for (let i = 0; i < subjects.length; i++) {
+                subject += subjects[i] += ' '
+              }
+            }
+            else subject = subjects[0]
+
+            subject = subject.replaceAll(',', ';')
+
+            let bookshelv = ''
+            if (bookshelves.length > 1) {
+              for (let i = 0; i < bookshelves.length; i++) {
+                bookshelv += bookshelves[i] += ' '
+              }
+            }
+            else bookshelv = "Aucune"
+
+            bookshelv = bookshelv.replaceAll(',', ';')
+
+            result += `${id},${title},${authorName},${authorLastName},${language},${download_count},${copyright},${subject},${bookshelv},\n`
             fs.writeFile(`${pwd}/test/data.csv`, result, err => {
               if (err) {
                 console.error(err)
@@ -49,8 +70,8 @@ for (let i = 1; i < 20; i++) {
           }
         })
     } catch (error) {
-      const err = error as AxiosError
-      if (err.response) {
+      // const err = error as AxiosError
+      if (error.response) {
         i--
       }
     }
