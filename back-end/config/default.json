@@ -1,0 +1,5 @@
+{
+  "mongoURI": "mongodb://localhost/guntenberg-index?retryWrites=true",
+  "jwtSecret": "jwtSecretToken",
+  "jwtExpiration": 360000
+}
