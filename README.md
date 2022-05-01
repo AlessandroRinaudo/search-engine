@@ -14,13 +14,13 @@ Objective: Create a library search engine to find the occurrence of a word or a 
 
 ## Original repository
 
-https://gitlab.alessandroserver.com/search-engine/back
-https://gitlab.alessandroserver.com/search-engine/front
+- https://gitlab.alessandroserver.com/search-engine/back
+- https://gitlab.alessandroserver.com/search-engine/front
 
 ## Contributors
 
-https://github.com/nyandrianinamamy
-https://github.com/willdow
+- https://github.com/nyandrianinamamy
+- https://github.com/willdow
 
 ## Front
 
